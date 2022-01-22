@@ -54,8 +54,7 @@ jobs:
           glob_root_file: true
           latexmk_use_xelatex: true
       - name: 复制编译出的 pdf 文件
-          run: |
-            mv ${{ format('./第{0}期/预印本(排版)/**/*.pdf', env.LATEST) }} ./
+          run: mv ${{ format('./第{0}期/预印本(排版)/**/*.pdf', env.LATEST) }} ./
       - uses: anothrNick/github-tag-action@1.36.0
         if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
         env:
