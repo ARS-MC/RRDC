@@ -1,0 +1,79 @@
+name: 构建预印本
+
+on: [push, pull_request, workflow_dispatch]
+
+jobs:
+  build-and-release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 获取时间戳
+        run: |
+          echo "DATE=$(date -u +'%Y-%m-%dT%H:%M:%SZ')" >> $GITHUB_ENV
+          echo "DATE_FILE_NAME=$(date -u +'%Y-%m-%dT%H%M%SZ')" >> $GITHUB_ENV
+      - uses: actions/checkout@v2
+      - name: 下载字体
+        run: |
+          # Source Han Serif
+          wget -q -P ./fonts/ https://github.com/adobe-fonts/source-han-serif/raw/release/OTF/SimplifiedChinese/SourceHanSerifSC-ExtraLight.otf
+          wget -q -P ./fonts/ https://github.com/adobe-fonts/source-han-serif/raw/release/OTF/SimplifiedChinese/SourceHanSerifSC-Light.otf
+          wget -q -P ./fonts/ https://github.com/adobe-fonts/source-han-serif/raw/release/OTF/SimplifiedChinese/SourceHanSerifSC-Regular.otf
+          wget -q -P ./fonts/ https://github.com/adobe-fonts/source-han-serif/raw/release/OTF/SimplifiedChinese/SourceHanSerifSC-Medium.otf
+          wget -q -P ./fonts/ https://github.com/adobe-fonts/source-han-serif/raw/release/OTF/SimplifiedChinese/SourceHanSerifSC-SemiBold.otf
+          wget -q -P ./fonts/ https://github.com/adobe-fonts/source-han-serif/raw/release/OTF/SimplifiedChinese/SourceHanSerifSC-Bold.otf
+          wget -q -P ./fonts/ https://github.com/adobe-fonts/source-han-serif/raw/release/OTF/SimplifiedChinese/SourceHanSerifSC-Heavy.otf
+          # Source Han Sans
+          wget -q -P ./fonts/ https://github.com/adobe-fonts/source-han-sans/raw/release/OTF/SimplifiedChinese/SourceHanSansSC-ExtraLight.otf
+          wget -q -P ./fonts/ https://github.com/adobe-fonts/source-han-sans/raw/release/OTF/SimplifiedChinese/SourceHanSansSC-Light.otf
+          wget -q -P ./fonts/ https://github.com/adobe-fonts/source-han-sans/raw/release/OTF/SimplifiedChinese/SourceHanSansSC-Regular.otf
+          wget -q -P ./fonts/ https://github.com/adobe-fonts/source-han-sans/raw/release/OTF/SimplifiedChinese/SourceHanSansSC-Medium.otf
+          wget -q -P ./fonts/ https://github.com/adobe-fonts/source-han-sans/raw/release/OTF/SimplifiedChinese/SourceHanSansSC-SemiBold.otf
+          wget -q -P ./fonts/ https://github.com/adobe-fonts/source-han-sans/raw/release/OTF/SimplifiedChinese/SourceHanSansSC-Bold.otf
+          wget -q -P ./fonts/ https://github.com/adobe-fonts/source-han-sans/raw/release/OTF/SimplifiedChinese/SourceHanSansSC-Heavy.otf
+          # DejaVu fonts
+          wget -q -P ./fonts/ https://github.com/dejavu-fonts/dejavu-fonts/releases/download/version_2_37/dejavu-fonts-ttf-2.37.zip
+          unzip -q -d ./fonts/ ./fonts/dejavu-fonts-ttf-2.37.zip
+          mv ./fonts/dejavu-fonts-ttf-2.37/ttf/* ./fonts/
+      - name: 获取最后一期的编号
+        shell: python
+        run: |
+          from os import walk, environ
+          from re import match as re_match
+          latest = 0
+          for dir in next(walk('.'))[1]:
+              m = re_match('第(\d+)期', dir)
+              if m is not None:
+                  number = int(m.group(1))
+                  if number > latest:
+                      latest = number
+          with open(environ['GITHUB_ENV'], 'w', encoding='utf8') as f:
+              print(f'LATEST={latest}', file=f)
+      - name: 编译 latex
+        uses: xu-cheng/latex-action@v2
+        with:
+          root_file: ${{ format(''./第{0}期/预印本(排版)/**/*.tex', env.LATEST) }}
+          glob_root_file: true
+          latexmk_use_xelatex: true
+      - name: 复制编译出的 pdf 文件
+          run: |
+            mv ${{ format('./第{0}期/预印本(排版)/**/*.pdf', env.LATEST) }} ./
+      - uses: anothrNick/github-tag-action@1.36.0
+        if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          CUSTOM_TAG: ${{ format('build-{0}', github.run_number) }}
+      - uses: softprops/action-gh-release@v0.1.14
+        if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
+        with:
+          tag_name: ${{ format('build-{0}', github.run_number) }}
+          name: ${{ format('第{0}期预印本(排版) 自动构建#{1}', env.LATEST, github.run_number) }}
+          body: |
+            ## 非最终版本，仅用于预览，不包括未排版的预印本。
+          files: ./*.pdf
+      - uses: dev-drprasad/delete-older-releases@v0.2.0
+        with:
+          keep_latest: 3
+          delete_tags: true
+          delete_tag_pattern: build
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
