@@ -33,6 +33,7 @@ jobs:
           wget -q -P /opt/fonts/ https://github.com/dejavu-fonts/dejavu-fonts/releases/download/version_2_37/dejavu-fonts-ttf-2.37.zip
           unzip -q -d /opt/fonts/ /opt/fonts/dejavu-fonts-ttf-2.37.zip
           mv /opt/fonts/dejavu-fonts-ttf-2.37/ttf/* /opt/fonts/
+      - run: ls -alph /opt/fonts/
       - name: 获取最后一期的编号
         shell: python
         run: |
