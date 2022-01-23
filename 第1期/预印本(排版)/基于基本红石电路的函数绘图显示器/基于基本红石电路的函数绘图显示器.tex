@@ -1,6 +1,5 @@
  % 五号字体，开明式标点处理，不设置默认字体
-\documentclass[UTF8,12pt,punct=kaiming,fontset=none]{article}
-\usepackage[UTF8]{ctex}
+\documentclass[UTF8,12pt,punct=kaiming,fontset=none]{ctexart}
 \usepackage{fontspec}
 \usepackage{tikz}
 \usepackage{graphicx}
@@ -21,46 +20,9 @@
 \usepackage{amssymb}
 
 % 字体
-\IfFontExistsTF{Source Han Serif SC}
-{
-    \setCJKmainfont{Source Han Serif SC}
-}
-{
-    % GitHub Actions
-    \setCJKmainfont[
-        Path=/opt/fonts/ ,
-        Extension = .otf ,
-        UprightFont = *-Regular ,
-        BoldFont = *-Bold
-    ]{SourceHanSerifSC}
-}
-\IfFontExistsTF{Source Han Sans SC}
-{
-    \setCJKsansfont{Source Han Sans SC}
-}
-{
-    % GitHub Actions
-    \setCJKsansfont[
-        Path=/opt/fonts/ ,
-        Extension = .otf ,
-        UprightFont = *-Regular ,
-        BoldFont = *-Bold
-    ]{SourceHanSansSC}
-}
-\IfFontExistsTF{DejaVu Sans}
-{
-    \newfontfamily\ds{Computer Modern}
-}
-{
-    % GitHub Actions
-    \newfontfamily\ds[
-        Path=/opt/fonts/ ,
-        Extension = . ttf ,
-        BoldFont = *-Bold ,
-        ItalicFont = *-Oblique ,
-        BoldItalicFont = *-BoldOblique
-    ]{DejaVuSans}
-}
+\setCJKmainfont{Source Han Serif SC}
+\setCJKsansfont{Source Han Sans SC}
+\newfontfamily\ds{Computer Modern}
 \newfontfamily\cm{Computer Modern}
 
 % 布局

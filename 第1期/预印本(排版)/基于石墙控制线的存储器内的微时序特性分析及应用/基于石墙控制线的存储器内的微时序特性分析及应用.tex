@@ -1,6 +1,5 @@
 % 五号字体，开明式标点处理，不设置默认字体
-\documentclass[UTF8,12pt,punct=kaiming,fontset=none]{article}
-\usepackage[UTF8]{ctex}
+\documentclass[UTF8,12pt,punct=kaiming,fontset=none]{ctexart}
 \usepackage{fontspec}
 \usepackage{float}
 \usepackage{graphicx}
@@ -17,54 +16,10 @@
 \usepackage{ragged2e}
 
 % 字体
-\IfFontExistsTF{Source Han Serif SC}
-{
-    \setCJKmainfont{Source Han Serif SC}
-}
-{
-    % GitHub Actions
-    \setCJKmainfont[
-        Path=/opt/fonts/ ,    
-        Extension = .otf ,
-        UprightFont = *-Regular ,
-        BoldFont = *-Bold
-    ]{SourceHanSerifSC}
-}
-\IfFontExistsTF{Source Han Sans SC}
-{
-    \setCJKsansfont{Source Han Sans SC}
-}
-{
-    % GitHub Actions
-    \setCJKsansfont[
-        Path=/opt/fonts/ ,    
-        Extension = .otf ,
-        UprightFont = *-Regular ,
-        BoldFont = *-Bold
-    ]{SourceHanSansSC}
-}
-\IfFontExistsTF{DejaVu Sans}
-{
-    \setmainfont{DejaVu Sans}
-    \setsansfont{DejaVu Sans}
-}
-{
-    % GitHub Actions
-    \setmainfont[
-        Path=/opt/fonts/ ,    
-        Extension = .ttf ,
-        BoldFont = *-Bold ,
-        ItalicFont = *-Oblique ,
-        BoldItalicFont = *-BoldOblique
-    ]{DejaVuSans}
-    \setsansfont[
-        Path=/opt/fonts/ ,    
-        Extension = .ttf ,
-        BoldFont = *-Bold ,
-        ItalicFont = *-Oblique ,
-        BoldItalicFont = *-BoldOblique
-    ]{DejaVuSans}
-}
+\setCJKmainfont{Source Han Serif SC}
+\setCJKsansfont{Source Han Sans SC}
+\setmainfont{DejaVu Sans}
+\setsansfont{DejaVu Sans}
 
 % 布局
 \geometry{a4paper,left=2cm,right=2cm,top=2.5cm,bottom=2.5cm}
