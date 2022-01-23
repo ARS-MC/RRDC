@@ -68,7 +68,7 @@ jobs:
           readarray -t pdf_files < <(ls -1)
           cat << EOF > release_body
           ## 非最终版本，仅用于预览。
-          由于 GitHub Actions 上传 release 资源时不支持包含冒号和 Unicode 的文件名，已将文件重命名。单击文件名将自动跳转到对应的文件：
+          由于 GitHub Actions 上传 release 资源时不支持包含特殊字符和 Unicode 的文件名，文件已被重命名。单击文件名将自动跳转到对应的文件：
           EOF
           for (( i=0; i<${#pdf_files[*]}; ++i )); do
             mv "${pdf_files[$i]}" "${i}.pdf"
@@ -85,7 +85,7 @@ jobs:
         if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
         with:
           tag_name: ${{ format('build-{0}', github.run_number) }}
-          name: ${{ format('第{0}期预印本 自动构建#{1}', env.LATEST, github.run_number) }}
+          name: ${{ format('第 {0} 期预印本 \#{1}', env.LATEST, github.run_number) }}
           body_path: ${{ github.workspace }}/pdfs/release_body
           files: ./pdfs/*.pdf
       - uses: dev-drprasad/delete-older-releases@v0.2.0
