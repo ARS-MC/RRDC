@@ -48,12 +48,13 @@ jobs:
           with open(environ['GITHUB_ENV'], 'w', encoding='utf8') as f:
               print(f'LATEST={latest}', file=f)
       - name: 编译 latex
-        uses: xu-cheng/latex-action@v2
+        uses: NKID00/latex-action@master
         with:
           extra_fonts: ./fonts/*
           root_file: ${{ format('./第{0}期/预印本(排版)/**/*.tex', env.LATEST) }}
           glob_root_file: true
           latexmk_use_xelatex: true
+          work_in_corresponding_directories: true
       - name: 复制编译出的 pdf 文件
         run: mv ${{ format('./第{0}期/预印本(排版)/**/*.pdf', env.LATEST) }} ./
       - uses: anothrNick/github-tag-action@1.36.0
