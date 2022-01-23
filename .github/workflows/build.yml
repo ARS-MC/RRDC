@@ -33,6 +33,10 @@ jobs:
           wget -q -P ./ https://github.com/dejavu-fonts/dejavu-fonts/releases/download/version_2_37/dejavu-fonts-ttf-2.37.zip
           unzip -q -d ./ ./dejavu-fonts-ttf-2.37.zip
           mv ./dejavu-fonts-ttf-2.37/ttf/* ./fonts/
+          # Computer Modern Unicode
+          wget -q -P ./ https://download.sourceforge.net/project/cm-unicode/cm-unicode/0.7.0/cm-unicode-0.7.0-otf.tar.xz
+          tar xf cm-unicode-0.7.0-otf.tar.xz
+          mv ./cm-unicode-0.7.0/*.otf ./fonts/
       - name: 获取最后一期的编号
         shell: python
         run: |
