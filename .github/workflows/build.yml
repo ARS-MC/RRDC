@@ -65,7 +65,7 @@ jobs:
           mkdir pdfs
           mv ${{ format('./第{0}期/预印本\(排版\)/**/*.pdf', env.LATEST) }} ./pdfs/
           cd pdfs
-          readarray pdf_files < <(ls -la)
+          readarray pdf_files < <(ls -1)
           cat << EOF > release_body
           ## 非最终版本，仅用于预览，不包括未排版的预印本。
           由于 GitHub Actions 上传 release 资源时不支持包含冒号和 Unicode 的文件名，已将文件重命名。单击文件名将自动跳转到对应的文件：
