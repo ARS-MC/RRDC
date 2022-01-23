@@ -60,10 +60,22 @@ jobs:
           latexmk_use_xelatex: true
           pre_compile: rm -rf /opt/texlive/texdir/texmf-dist/fonts/type1/ && fc-cache -f
           work_in_corresponding_directories: true
-      - name: 复制编译出的 pdf 文件
+      - name: 复制并重命名编译出的 pdf 文件
         run: |
           mkdir pdfs
           mv ${{ format('./第{0}期/预印本\(排版\)/**/*.pdf', env.LATEST) }} ./pdfs/
+          cd pdfs
+          readarray pdf_files < <(ls -la)
+          cat << EOF > release_body
+          ## 非最终版本，仅用于预览，不包括未排版的预印本。
+          由于 GitHub Actions 上传 release 资源时不支持包含冒号和 Unicode 的文件名，已将文件重命名。单击文件名将自动跳转到对应的文件：
+          EOF
+          for (( i=0; i<${#pdf_files[*]}; ++i )); do
+            mv "${pdf_files[$i]}" "${i}.pdf"
+            echo "- [${pdf_files[$i]}](https://github.com/NKID00/articles/releases/download/build-${RUN_NUMBER}/${i}.pdf)" >> release_body
+          done
+        env:
+          RUN_NUMBER: ${{ github.run_number }}
       - uses: anothrNick/github-tag-action@1.36.0
         if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
         env:
@@ -74,8 +86,7 @@ jobs:
         with:
           tag_name: ${{ format('build-{0}', github.run_number) }}
           name: ${{ format('第{0}期预印本(排版) 自动构建#{1}', env.LATEST, github.run_number) }}
-          body: |
-            ## 非最终版本，仅用于预览，不包括未排版的预印本。
+          body_path: ${{ github.workspace }}/pdfs/release_body
           files: ./pdfs/*.pdf
       - uses: dev-drprasad/delete-older-releases@v0.2.0
         with:
