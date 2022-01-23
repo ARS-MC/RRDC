@@ -63,7 +63,7 @@ jobs:
       - name: 复制编译出的 pdf 文件
         run: |
           mkdir pdfs
-          mv ${{ format('./第{0}期/预印本\\(排版\\)/**/*.pdf', env.LATEST) }} ./pdfs/
+          mv ${{ format('./第{0}期/预印本\(排版\)/**/*.pdf', env.LATEST) }} ./pdfs/
       - uses: anothrNick/github-tag-action@1.36.0
         if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
         env:
