@@ -301,4 +301,4 @@ TSWLatexianTemp*
 #*Notes.bib
 
 # 预印本排版时产生的 pdf 文件
-**/预印本(排版)/**/*.pdf
+**/预印本/**/*.pdf
