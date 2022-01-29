@@ -100,7 +100,7 @@
     \titlespacing{\section}{0cm}{0.5ex}{0.2ex}
     \setcounter{section}{-1}
 
-    我们知道，乘法的本质是加法，而加法需要用到全加器，因此这里先单独展示16位全加器的构造\upcite{bib:no_ref}。
+    我们知道，乘法的本质是加法，而加法需要用到全加器，因此这里先单独展示16位全加器的构造\upcite{full_adder}。
 
     % \begin{figure}[H]
     %     \centering
@@ -129,6 +129,10 @@
         \caption{\small 树状乘法器的整体概览，(a)俯视图，(b)侧视图。}
         \label{fig:tree-multiplier-overview}
     \end{figure}
+
+    树状乘法器有着更低的计算复杂度，并且建造难度较低，此外配合封闭进位加法器（CCA）可以获得更好的效果，这是红石计算器建造中可供选择的方案之一。
+
+    最后感谢@辰占鳌头与@mail\_set的提醒与指导。
 
     \bibliographystyle{unsrt}
     \bibliography{reference}
