@@ -302,3 +302,6 @@ TSWLatexianTemp*
 
 # 预印本排版时产生的 pdf 文件
 **/预印本/**/*.pdf
+
+# pdf 格式的图片
+!**/figures/*.pdf
