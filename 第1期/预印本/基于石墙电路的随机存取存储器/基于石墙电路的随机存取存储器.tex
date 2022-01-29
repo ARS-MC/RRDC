@@ -77,12 +77,12 @@
 \pagestyle{fancy}
 \fancyhead[L]{· \hspace{0.1cm} \thepage \hspace{0.1cm} ·}
 \fancyhead[C]{红\ 石\ 数\ 电\ 评\ 论\\\scriptsize{Review of Redstonic Digital Circuit}}
-\fancyhead[R]{2022年1月(第1期)}
+\fancyhead[R]{第1期\\\scriptsize{2022年1月}}
 \fancyfoot[L,C,R]{}
 
 % 标题
 \title{\vspace{-1.5cm}基于石墙电路的随机存取存储器\vspace{-0.5cm}}
-\author{@辰占鳌头,@NKID00\thanks{先进红石数电技术研讨组ARP}}
+\author{@辰占鳌头,@NKID00\thanks{先进红石数电技术研讨组ARS}}
 \date{}
 
 % 参考文献标注
@@ -111,7 +111,7 @@
     % 节标题格式
     \titleformat{\section}[hang]{\large\sffamily\bfseries}{\textmd{\thesection}}{0.5cm}{}
     \titlespacing{\section}{0cm}{0.5ex}{0.2ex}
-    \setcounter{section}{-1}
+    \setcounter{section}{0}
 
 \section{引言}
 随机存取存储器（下称RAM）是指读写延迟与数据所在地址无关的存储器。
@@ -207,7 +207,7 @@
 我们使用常规的3位竖式寻址，控制8个字节的读写。指定地址对应的活塞会收起形成通路，其他地址对应的活塞仍然断路。
 此时控制存储和输出的脉冲信号只能穿过通路，如此实现了对指定地址的读写控制。
 从操作上来说，在输入数据后（拉下图\ref{fig:wallRAM}(f)输入端的拉杆），输入指定地址（拉下图\ref{fig:wallRAM}(f)寻址端的拉杆），然后右击1号音符盒产生一个脉冲，存储当前输入的数据到指定地址。
-变更地址和输入，数据不会消失，除非重新写入。读出数据同样要先输入指定地址（拉下图\ref{fig:wallRAM}(f)寻址端的拉杆），而后右击2号音符盒产生一个脉冲，数据将以1t脉冲形式从输出端输出。
+变更地址和输入，数据不会消失，除非重新写入。读出数据同样要先输入指定地址（拉下图\ref{fig:wallRAM}(f)寻址端的拉杆），而后右击2号音符盒产生一个脉冲，数据将以1t脉冲形式输出。
 注意，第一种方案（图\ref{fig:wallRAM}(a)所示），控制输出的脉冲是2t，而对于第二种方案和修改方案是1t。
 在示例存档中，我们通过改变2号音符盒后的中继器延迟来实现这一点。
 
