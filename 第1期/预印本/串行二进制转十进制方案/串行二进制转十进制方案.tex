@@ -59,7 +59,7 @@
     % 节标题格式
     \titleformat{\section}[hang]{\large\sffamily\bfseries}{\textmd{\thesection}}{0.5cm}{}
     \titlespacing{\section}{0cm}{0.5ex}{0.2ex}
-    \setcounter{section}{-1}
+    \setcounter{section}{0}
 
     数据在计算机中是二进制的形式存在的，十进制的数字同样也是用二进制数的形式存储。在计算机中通常有将十进制（BCD）码转换为二进制（BIN）码，又将二进制码转换为十进制码的操作。我们完全可以在Minecraft中将该操作进行还原。本文提出的“二转十”机器使用串行“满五加三”算法 \cite{5_3}，以数据流移位器为核心，利用查表法执行算法，配合时钟和RS锁存器，可以每6tick计算一个二进制位。
 
