@@ -300,8 +300,11 @@ TSWLatexianTemp*
 # Uncomment the next line to have this generated file ignored.
 #*Notes.bib
 
-# 预印本排版时产生的 pdf 文件
-**/预印本/**/*.pdf
+# 本地排版时产生的 pdf 文件
+*.pdf
+
+# pdf 格式的原始投稿
+!**/原始投稿/*.pdf
 
 # pdf 格式的图片
 !**/figures/*.pdf

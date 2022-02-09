@@ -1,56 +1,54 @@
- % 五号字体，开明式标点处理，不设置默认字体
+% 五号字体，开明式标点处理，不设置默认字体
 \documentclass[UTF8,12pt,punct=kaiming,fontset=none]{ctexart}
-\usepackage{fontspec}
-\usepackage{tikz}
-\usepackage{graphicx}
-\usepackage{subcaption}
-\usepackage{pgf-umlsd}
+\usepackage{fontspec}  % 字体
+\usepackage{subcaption}  % 节标题
 % 品红色链接和注释
 % \usepackage[colorlinks=true, linkcolor=magenta, citecolor=magenta, urlcolor=magenta]{hyperref}
 % 黑色链接和注释
 \usepackage[colorlinks=true, linkcolor=black, citecolor=black, urlcolor=black]{hyperref}
-\usepackage{geometry}
-\usepackage{fancyhdr}
-\usepackage{multirow}
-\usepackage{boldline}
-\usepackage[european,nooldvoltagedirection]{circuitikz}
-\usepackage{titlesec}
-\usepackage{caption}
-\usepackage{floatrow}
-\usepackage{amssymb}
+\usepackage{geometry}  % 页面布局
+\usepackage{fancyhdr}  % 页眉页脚
+\usepackage{titlesec}  % 标题
+\usepackage{caption}  % 图表标题
+\usepackage{floatrow}  % 图表排版
+\usepackage{graphicx}  % 图片路径
+
+% 图片路径
+\graphicspath{{figures/}}
 
 % 字体
 \setCJKmainfont{Source Han Serif SC}
 \setCJKsansfont{Source Han Sans SC}
 \setmainfont{CMU Serif}
-\newfontfamily\ds{CMU Serif}
-\newfontfamily\cm{CMU Serif}
 
 % 布局
 \geometry{a4paper,left=2cm,right=2cm,top=2.5cm,bottom=2.5cm}
 \setlength{\headheight}{25pt}
 
 % 图表标题
-\DeclareCaptionFont{captionfont}{\ds\small}
+\DeclareCaptionFont{captionfont}{\small}
 \captionsetup{font=captionfont}
 \floatsetup{style=plaintop}
 
 % 页眉页脚
 \pagenumbering{arabic}
 \pagestyle{fancy}
-\fancyhead[L]{\ds · \hspace{0.1cm} \thepage \hspace{0.1cm} ·}
-\fancyhead[C]{\ds 红\ 石\ 数\ 电\ 评\ 论\\\scriptsize{Review of Redstonic Digital Circuit}}
-\fancyhead[R]{\ds 2022年1月(第1期)}
+\fancyhead[L]{· \hspace{0.1cm} \thepage \hspace{0.1cm} ·}
+\fancyhead[C]{红石数电评论\\\scriptsize{Review of Redstonic Digital Circuit}}
+\fancyhead[R]{第1期\\\scriptsize{2022年2月}}
 \fancyfoot[L,C,R]{}
+
+% 首页页码
+\setcounter{page}{1}
 
 % 标题
 \title{\vspace{-1.5cm}基于基本红石电路的函数绘图显示器\vspace{-0.5cm}}
-\author{\ds @章鱼千\hspace{-0.015cm}\_zhyq\footnote{\ds Bilibili id: 287032573}}
+\author{@章鱼千\hspace{-0.015cm}\_zhyq\footnote{Bilibili id: 287032573}}
 \date{}
 
 % 参考文献标注
 \newcommand*{\upcite}[1]{
-    \ds\textsuperscript{\cite{#1}}\cm
+    \textsuperscript{\cite{#1}}
 }
 
 \begin{document}
@@ -65,18 +63,18 @@
             \titlespacing{\section}{1.5cm}{1ex}{0cm}
 
             \section{摘 \hspace{0.105cm} 要}
-            \ds \small 本文介绍了一种基于基本红石电路的函数绘图显示器,其基本功能是根据设置好的各个点的坐标在显示器中绘制函数图像.文中首先介绍了显示器的整体组成与各部分的功能,然后依次介绍了各个部分的具体原理.最终的成品如 BV17K4y1a7ip 所示.
+            \small 本文介绍了一种基于基本红石电路的函数绘图显示器,其基本功能是根据设置好的各个点的坐标在显示器中绘制函数图像.文中首先介绍了显示器的整体组成与各部分的功能,然后依次介绍了各个部分的具体原理.最终的成品如 BV17K4y1a7ip 所示.
 
             \section{关键词}
-            \ds \small 基本红石电路 \hspace{0.5cm} 函数绘图 \hspace{0.5cm} 显示器 \hspace{0.5cm} 存储器
+            \small 基本红石电路 \hspace{0.5cm} 函数绘图 \hspace{0.5cm} 显示器 \hspace{0.5cm} 存储器
         \end{minipage}
     \end{flushright}
     \vspace{0.2cm}
 
     % 节标题格式
-    \titleformat{\section}[hang]{\large\sffamily\bfseries}{\textmd{\ds\thesection}}{0.5cm}{}
+    \titleformat{\section}[hang]{\large\sffamily\bfseries}{\textmd{\thesection}}{0.5cm}{}
     \titlespacing{\section}{0cm}{0.5ex}{0.2ex}
-    \titleformat{\subsection}[hang]{\normalsize\sffamily}{\textmd{\ds\thesubsection}}{0.5cm}{}
+    \titleformat{\subsection}[hang]{\normalsize\sffamily}{\textmd{\thesubsection}}{0.5cm}{}
     \titlespacing{\subsection}{0cm}{0.5ex}{0.2ex}
     \setcounter{section}{-1}
 
@@ -87,7 +85,7 @@
 
     基本红石电路是指利用建筑材料、红石粉、红石中继器、红石火把和少量活塞的电路.通常来说,很可能可以通过在这类电路中引入其他元件来优化体积与延时,尽管如此,由于这类电路的逻辑相对清晰易懂,因此对于初学者来说通过这类电路学习数电工程的构建方法依然是很有意义的.
 
-    本文首先介绍函数绘图显示器的总体结构与各个部分的功能,然后以一个$4 \times 4$的显示器为例依次介绍各个部分的组成,最后将介绍$32 \times 32$的样机,更详细的样机展示见\ds BV17K4y1a7ip\cm .
+    本文首先介绍函数绘图显示器的总体结构与各个部分的功能,然后以一个$4 \times 4$的显示器为例依次介绍各个部分的组成,最后将介绍$32 \times 32$的样机,更详细的样机展示见BV17K4y1a7ip.
 
     \section{总体结构与功能}
     本文介绍的函数显示器主要包括三部分:显示器、存储器与总控电路,三部分的输入输出及其含义如表 \ref{tab:1} 所示,连接图如图 \ref{fig:1} 所示.
@@ -383,7 +381,6 @@
 
     致谢:感谢辰占鳌头的邀稿,让笔者得以在此平台发表自己的拙作;在笔者建造作品的过程中,使用了FredBill提供的整合包,FredBill、辰占鳌头为建造提出了很多建议,很大程度上加快了建造的速度,感谢二位提供的帮助.
 
-    \ds
     \renewcommand{\refname}{参考文献}
     \begin{thebibliography}{99}
         \bibitem{bib:1}辰占鳌头.【Minecraft】全站首个红石汉字编码全像素显示屏 (4K)[V]. Bilibili, BV1wP4y1s7jy.

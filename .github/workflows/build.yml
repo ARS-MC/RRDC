@@ -52,18 +52,21 @@ jobs:
           with open(environ['GITHUB_ENV'], 'w', encoding='utf8') as f:
               print(f'LATEST={latest}', file=f)
       - name: 编译 LaTeX
-        uses: NKID00/latex-action@master
+        uses: xu-cheng/latex-action@v2
         with:
           extra_fonts: ./fonts/*
-          root_file: ${{ format('./第{0}期/预印本/**/*.tex', env.LATEST) }}
+          root_file: |
+            ${{ format('./第{0}期/预印本/*/*.tex', env.LATEST) }}
+            ${{ format('./第{0}期/杂项/*.tex', env.LATEST) }}
           glob_root_file: true
           latexmk_use_xelatex: true
           pre_compile: rm -rf /opt/texlive/texdir/texmf-dist/fonts/type1/ && fc-cache -f
-          work_in_corresponding_directories: true
+          work_in_root_file_dir: true
       - name: 复制并重命名编译出的 pdf 文件
         run: |
           mkdir pdfs
-          mv ${{ format('./第{0}期/预印本/**/*.pdf', env.LATEST) }} ./pdfs/
+          mv ${{ format('./第{0}期/预印本/*/*.pdf', env.LATEST) }} ./pdfs/
+          mv ${{ format('./第{0}期/杂项/*.pdf', env.LATEST) }} ./pdfs/
           cd pdfs
           readarray -t pdf_files < <(ls -1)
           cat << EOF > release_body
