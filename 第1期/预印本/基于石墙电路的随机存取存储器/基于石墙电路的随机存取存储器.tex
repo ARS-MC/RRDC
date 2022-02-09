@@ -1,84 +1,45 @@
 % 五号字体，开明式标点处理，不设置默认字体
-\documentclass[UTF8,12pt,punct=kaiming,fontset=none]{article}
-\usepackage[UTF8]{ctex}
-\usepackage{fontspec}
-\usepackage{float}
-\usepackage{graphicx}
-\usepackage{subcaption}
-\usepackage{pgf-umlsd}
+\documentclass[UTF8,12pt,punct=kaiming,fontset=none]{ctexart}
+\usepackage{fontspec}  % 字体
+\usepackage{subcaption}  % 节标题
 % 品红色链接和注释
 % \usepackage[colorlinks=true, linkcolor=magenta, citecolor=magenta, urlcolor=magenta]{hyperref}
 % 黑色链接和注释
 \usepackage[colorlinks=true, linkcolor=black, citecolor=black, urlcolor=black]{hyperref}
-\usepackage{geometry}
-\usepackage{fancyhdr}
-\usepackage{framed}
-\usepackage{titlesec}
-\usepackage{ragged2e}
+\usepackage{geometry}  % 页面布局
+\usepackage{fancyhdr}  % 页眉页脚
+\usepackage{titlesec}  % 标题
+\usepackage{caption}  % 图表标题
+\usepackage{floatrow}  % 图表排版
+\usepackage{graphicx}  % 图片路径
 
+% 图片路径
 \graphicspath{{figures/}}
 
 % 字体
-\IfFontExistsTF{Source Han Serif SC}
-{
-    \setCJKmainfont{Source Han Serif SC}
-}
-{
-    % GitHub Actions
-    \setCJKmainfont[
-        Path=../fonts/ ,    
-        Extension = .otf ,
-        UprightFont = *-Regular ,
-        BoldFont = *-Bold
-    ]{SourceHanSerifSC}
-}
-\IfFontExistsTF{Source Han Sans SC}
-{
-    \setCJKsansfont{Source Han Sans SC}
-}
-{
-    % GitHub Actions
-    \setCJKsansfont[
-        Path=../fonts/ ,    
-        Extension = .otf ,
-        UprightFont = *-Regular ,
-        BoldFont = *-Bold
-    ]{SourceHanSerifSC}
-}
-\IfFontExistsTF{DejaVu Sans}
-{
-    \setmainfont{DejaVu Sans}
-    \setsansfont{DejaVu Sans}
-}
-{
-    % GitHub Actions
-    \setmainfont[
-        Path=../fonts/ ,    
-        Extension = .ttf ,
-        BoldFont = *-Bold ,
-        ItalicFont = *-Oblique ,
-        BoldItalicFont = *-BoldOblique
-    ]{DejaVuSans}
-    \setsansfont[
-        Path=../fonts/ ,    
-        Extension = .ttf ,
-        BoldFont = *-Bold ,
-        ItalicFont = *-Oblique ,
-        BoldItalicFont = *-BoldOblique
-    ]{DejaVuSans}
-}
+\setCJKmainfont{Source Han Serif SC}
+\setCJKsansfont{Source Han Sans SC}
+\setmainfont{CMU Serif}
 
 % 布局
 \geometry{a4paper,left=2cm,right=2cm,top=2.5cm,bottom=2.5cm}
-\setlength{\headheight}{20pt}
+\setlength{\headheight}{25pt}
+
+% 图表标题
+\DeclareCaptionFont{captionfont}{\small}
+\captionsetup{font=captionfont}
+\floatsetup{style=plaintop}
 
 % 页眉页脚
 \pagenumbering{arabic}
 \pagestyle{fancy}
 \fancyhead[L]{· \hspace{0.1cm} \thepage \hspace{0.1cm} ·}
-\fancyhead[C]{红~石~数~电~评~论\\\scriptsize{Review of Redstonic Digital Circuit}}
+\fancyhead[C]{红石数电评论\\\scriptsize{Review of Redstonic Digital Circuit}}
 \fancyhead[R]{第1期\\\scriptsize{2022年1月}}
 \fancyfoot[L,C,R]{}
+
+% 首页页码
+\setcounter{page}{1}
 
 % 标题
 \title{\vspace{-1.5cm}基于石墙电路的随机存取存储器\vspace{-0.5cm}}
@@ -89,29 +50,36 @@
 \newcommand*{\upcite}[1]{
     \textsuperscript{\cite{#1}}
 }
+
 \begin{document}
 \maketitle
-    \thispagestyle{fancy} % 首页页眉页脚
-    \vspace{-0.7cm}
+\thispagestyle{fancy} % 首页页眉页脚
+\vspace{-0.7cm}
 
-    % 摘要及关键词
-    \begin{minipage}[c]{0.75\linewidth}
-        \titleformat{\section}[wrap]{\sffamily\small\bfseries}{}{0cm}{}
-        \titlespacing{\section}{2cm}{1ex}{0.4cm}
+% 摘要及关键词
+\begin{flushright}
+    \begin{minipage}[c]{0.91\linewidth}
+        \titleformat{\section}[leftmargin]{\sffamily\small\bfseries}{}{0cm}{}
+        \titlespacing{\section}{1.5cm}{1ex}{0cm}
 
-        \section{摘 \hspace{0.11cm} 要}
+        \section{摘 \hspace{0.105cm} 要}
         \small Minecraft 1.16版本更新引入的石墙电路（墙电）提供了便捷的无延迟信号下传方案。
         结合经典的RAM方案，我们提出一种基于墙电的RAM方案。
         这一方案使用了竖式布线，可以纵向拓展到任意多位。同时，墙电的无延迟特性进一步降低了存取延迟，
         使得大位宽同步存取在16位及以上的CPU中成为可能。
 
+        \section{关键词}
+        \small 关键词 \hspace{0.5cm} 关键词
     \end{minipage}
-    \vspace{0.2cm}
+\end{flushright}
+\vspace{0.2cm}
 
-    % 节标题格式
-    \titleformat{\section}[hang]{\large\sffamily\bfseries}{\textmd{\thesection}}{0.5cm}{}
-    \titlespacing{\section}{0cm}{0.5ex}{0.2ex}
-    \setcounter{section}{0}
+% 节标题格式
+\titleformat{\section}[hang]{\large\sffamily\bfseries}{\textmd{\thesection}}{0.5cm}{}
+\titlespacing{\section}{0cm}{0.5ex}{0.2ex}
+\titleformat{\subsection}[hang]{\normalsize\sffamily}{\textmd{\thesubsection}}{0.5cm}{}
+\titlespacing{\subsection}{0cm}{0.5ex}{0.2ex}
+\setcounter{section}{0}
 
 \section{引言}
 随机存取存储器（下称RAM）是指读写延迟与数据所在地址无关的存储器。
