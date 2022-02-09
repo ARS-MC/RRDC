@@ -12,6 +12,13 @@
 \usepackage{caption}  % 图表标题
 \usepackage{floatrow}  % 图表排版
 \usepackage{graphicx}  % 图片路径
+% 表格
+\usepackage{multirow}
+\usepackage{boldline}
+% 电路图
+\usepackage{tikz}
+\usepackage[european,nooldvoltagedirection]{circuitikz}
+\usepackage{amssymb}  % 数学符号
 
 % 图片路径
 \graphicspath{{figures/}}
@@ -34,7 +41,7 @@
 \pagenumbering{arabic}
 \pagestyle{fancy}
 \fancyhead[L]{· \hspace{0.1cm} \thepage \hspace{0.1cm} ·}
-\fancyhead[C]{红石数电评论\\\scriptsize{Review of Redstonic Digital Circuit}}
+\fancyhead[C]{红 \hspace{0.08cm} 石 \hspace{0.08cm} 数 \hspace{0.08cm} 电 \hspace{0.08cm} 评 \hspace{0.08cm} 论\\\scriptsize{Review of Redstonic Digital Circuit}}
 \fancyhead[R]{第1期\\\scriptsize{2022年2月}}
 \fancyfoot[L,C,R]{}
 
@@ -381,7 +388,6 @@
 
     致谢:感谢辰占鳌头的邀稿,让笔者得以在此平台发表自己的拙作;在笔者建造作品的过程中,使用了FredBill提供的整合包,FredBill、辰占鳌头为建造提出了很多建议,很大程度上加快了建造的速度,感谢二位提供的帮助.
 
-    \renewcommand{\refname}{参考文献}
     \begin{thebibliography}{99}
         \bibitem{bib:1}辰占鳌头.【Minecraft】全站首个红石汉字编码全像素显示屏 (4K)[V]. Bilibili, BV1wP4y1s7jy.
         \bibitem{bib:2}章鱼千\hspace{-0.015cm}\_zhyq. 【minecraft 红石】6 分钟教你用纯红石电路造一个能打字的大型显示屏[V].Bilibili, BV1Z7411K7a5.
