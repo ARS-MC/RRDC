@@ -1,91 +1,57 @@
 % 五号字体，开明式标点处理，不设置默认字体
-\documentclass[UTF8, 12pt, punct=kaiming, fontset=none]{article}
-\usepackage[UTF8]{ctex}
-\usepackage{fontspec}
-\usepackage{float}
-\usepackage{graphicx}
-\usepackage{subcaption}
-\usepackage{pgf-umlsd}
+\documentclass[UTF8,12pt,punct=kaiming,fontset=none]{ctexart}
+\usepackage{fontspec}  % 字体
+\usepackage{subcaption}  % 节标题
 % 品红色链接和注释
 % \usepackage[colorlinks=true, linkcolor=magenta, citecolor=magenta, urlcolor=magenta]{hyperref}
 % 黑色链接和注释
 \usepackage[colorlinks=true, linkcolor=black, citecolor=black, urlcolor=black]{hyperref}
-\usepackage{geometry}
-\usepackage{fancyhdr}
-\usepackage{caption}
-\usepackage{framed}
-\usepackage{titlesec}
-\usepackage{ragged2e}
-\usepackage{url}
-\usepackage{cite}
-\usepackage{bookmark}
+\usepackage{geometry}  % 页面布局
+\usepackage{fancyhdr}  % 页眉页脚
+\usepackage{titlesec}  % 标题
+\usepackage{caption}  % 图表标题
+\usepackage{floatrow}  % 图表排版
+\usepackage{graphicx}  % 图片路径
+% 表格(可选)
+\usepackage{multirow}
+\usepackage{boldline}
+% 电路图(可选)
+\usepackage{tikz}
+\usepackage[european,nooldvoltagedirection]{circuitikz}
 
+% 图片路径
 \graphicspath{{figures/}}
 
 % 字体
-\IfFontExistsTF{Source Han Serif SC}
-{
-    \setCJKmainfont{Source Han Serif SC}
-}
-{
-    % GitHub Actions
-    \setCJKmainfont[
-        Path=. ./fonts/ ,    
-        Extension = . otf ,
-        UprightFont = *-Regular ,
-        BoldFont = *-Bold
-    ]{SourceHanSerifSC}
-}
-\IfFontExistsTF{Source Han Sans SC}
-{
-    \setCJKsansfont{Source Han Sans SC}
-}
-{
-    % GitHub Actions
-    \setCJKsansfont[
-        Path=. ./fonts/ ,    
-        Extension = . otf ,
-        UprightFont = *-Regular ,
-        BoldFont = *-Bold
-    ]{SourceHanSerifSC}
-}
-\IfFontExistsTF{DejaVu Sans}
-{
-    \newfontfamily\ds{DejaVu Sans}
-}
-{
-    % GitHub Actions
-    \newfontfamily\ds[
-        Path=. ./fonts/ ,    
-        Extension = . ttf ,
-        BoldFont = *-Bold ,
-        ItalicFont = *-Oblique ,
-        BoldItalicFont = *-BoldOblique
-    ]{DejaVuSans}
-}
-%\newfontfamily\cm{CMU}
-
-% 图表标题字体
-\DeclareCaptionFont{captionfont}{\ds}
-\captionsetup[table]{font=captionfont}
-\captionsetup[figure]{font=captionfont}
-
+\setCJKmainfont{Source Han Serif SC}
+\setCJKsansfont{Source Han Sans SC}
+\setmainfont{CMU Serif}
 
 % 布局
-\geometry{a4paper, left=2cm, right=2cm, top=2.5cm, bottom=2.5cm}
+\geometry{a4paper,left=2cm,right=2cm,top=2.5cm,bottom=2.5cm}
 \setlength{\headheight}{25pt}
+
+% 图表标题
+\DeclareCaptionFont{captionfont}{\small}
+\captionsetup{font=captionfont}
+\floatsetup{style=plaintop}
 
 % 页眉页脚
 \pagenumbering{arabic}
 \pagestyle{fancy}
-\fancyhead[L]{\ds · \hspace{0.1cm} \thepage \hspace{0.1cm} ·}
-\fancyhead[C]{\ds 红~石~数~电~评~论\\\scriptsize{Review of Redstonic Digital Circuit}}
-\fancyhead[R]{\ds 第1期\\\scriptsize{2022年1月}}
-\fancyfoot[L, C, R]{}
+\fancyhead[L]{· \hspace{0.1cm} \thepage \hspace{0.1cm} ·}
+\fancyhead[C]{红石数电评论\\\scriptsize{Review of Redstonic Digital Circuit}}
+\fancyhead[R]{第1期\\\scriptsize{2022年1月}}
+\fancyhead[C]{红~石~数~电~评~论\\\scriptsize{Review of Redstonic Digital Circuit}}
+\fancyhead[R]{2022年1月(第1期)}
+\fancyfoot[L,C,R]{}
+
+% 首页页码
+\setcounter{page}{1}
 
 % 标题
 \title{\vspace{-1.5cm}潜影盒存储——不可堆叠物品解码方案\vspace{-0.5cm}}
-\author{\ds @辰占鳌头}
+\author{@辰占鳌头}
 \date{}
 
 % 参考文献标注
@@ -94,14 +60,16 @@
 }
 
 \begin{document}
-    \maketitle
-    \thispagestyle{fancy} % 首页页眉页脚
-    \vspace{-0.7cm}
+\maketitle
+\thispagestyle{fancy} % 首页页眉页脚
+\vspace{-0.7cm}
 
-    % 节标题格式
-    \titleformat{\section}[hang]{\large\sffamily\bfseries}{\textmd{\ds\thesection}}{0.5cm}{}
-    \titlespacing{\section}{0cm}{0.5ex}{0.2ex}
-    \setcounter{section}{-1}
+% 节标题格式
+\titleformat{\section}[hang]{\large\sffamily\bfseries}{\textmd{\thesection}}{0.5cm}{}
+\titlespacing{\section}{0cm}{0.5ex}{0.2ex}
+\titleformat{\subsection}[hang]{\normalsize\sffamily}{\textmd{\thesubsection}}{0.5cm}{}
+\titlespacing{\subsection}{0cm}{0.5ex}{0.2ex}
+\setcounter{section}{0}
 
 利用箱子或潜影盒内物品排列顺序存储大量数据一直是红石玩家所追求的。
 由于漏斗在吸取箱子或潜影盒内物品时，是按照从左往右、从上往下的顺序的，装填时顺序也一样，所以信息可以被读取，读取后也可以按原来的顺序装回箱子。
