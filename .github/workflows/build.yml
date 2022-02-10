@@ -57,7 +57,7 @@ jobs:
           extra_fonts: ./fonts/*
           root_file: |
             ${{ format('./第{0}期/预印本/*/*.tex', env.LATEST) }}
-            ${{ format('./第{0}期/杂项/*.tex', env.LATEST) }}
+            ${{ format('./第{0}期/杂项/封面和目录.tex', env.LATEST) }}
           glob_root_file: true
           latexmk_use_xelatex: true
           pre_compile: rm -rf /opt/texlive/texdir/texmf-dist/fonts/type1/ && fc-cache -f
@@ -66,7 +66,7 @@ jobs:
         run: |
           mkdir pdfs
           mv ${{ format('./第{0}期/预印本/*/*.pdf', env.LATEST) }} ./pdfs/
-          mv ${{ format('./第{0}期/杂项/*.pdf', env.LATEST) }} ./pdfs/
+          mv ${{ format('./第{0}期/杂项/封面和目录.pdf', env.LATEST) }} ./pdfs/
           cd pdfs
           readarray -t pdf_files < <(ls -1)
           cat << EOF > release_body
@@ -79,6 +79,32 @@ jobs:
           done
         env:
           RUN_NUMBER: ${{ github.run_number }}
+      # - name: 整合 pdf 文件
+      #   shell: python
+      #   run: |
+      #     from os import environ, system, popen
+      #     from json import load
+      #     from pathlib import Path
+      #     latest = environ['LATEST']
+      #     root = Path('./第{latest}期/')
+      #     contents = load(root / '杂项' / '目录.json')
+      #     articles = [(
+      #         name,
+      #         int(next(filter(
+      #             lambda s: s.startswith('NumberOfPages:'),
+      #             popen(f'pdftk {root / name / (name + '.pdf')} dump_data_utf8').read().splitlines(keepends=False)
+      #         )).split(' ')[1])
+      #     ) for name in contents['论文']]
+      #     reports = [(
+      #         name,
+      #         int(next(filter(
+      #             lambda s: s.startswith('NumberOfPages:'),
+      #             popen(f'pdftk {root / name / (name + '.pdf')} dump_data_utf8').read().splitlines(keepends=False)
+      #         )).split(' ')[1])
+      #     ) for name in contents['通讯']]
+      #     cover = root / '杂项' / '封面和目录.pdf'
+      #     pdfs = ' '.join(root / name / f'{name}.pdf' for name in contents['论文'] + contents['通讯'])
+      #     system(f'pdftk {cover} {pdfs} cat output ./pdfs/第{latest}期.pdf')
       - uses: anothrNick/github-tag-action@1.36.0
         if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
         env:
