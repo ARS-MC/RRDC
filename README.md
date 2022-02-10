@@ -1,6 +1,6 @@
-<img align="right" width="200px" src="https://cdn.jsdelivr.net/gh/ARS-MC/.github@main/profile/qrcode.png" />
-
 # 红石数电评论 Review of Redstonic Digital Circuit
+
+<img align="right" width="200px" src="https://cdn.jsdelivr.net/gh/ARS-MC/.github@main/profile/qrcode.png" />
 
 在 [release 页面](https://github.com/ARS-MC/RRDC/releases)可以获取期刊和已编辑或正在编辑的预印本，在存储库中对应期刊的文件夹中可以获取未经编辑但已审核通过的原始投稿。
 
