@@ -12,20 +12,21 @@
 \usepackage{anyfontsize}  % 字体大小
 \usepackage{tocloft}  % 目录
 \usepackage{ifthen}  % 判断
+\usepackage{wrapfig}  % 文字并排图片
 
 % 图片路径
 \graphicspath{{figures/}}
 
 % 封面
-% \backgroundsetup{
-%     scale=1,
-%     color=black,
-%     opacity=1,
-%     angle=0,
-%     contents={
-%         \includegraphics[width=\paperwidth,height=\paperheight]{封面.png}
-%     }
-% }
+\backgroundsetup{
+    scale=1,
+    color=black,
+    opacity=1,
+    angle=0,
+    contents={
+        \includegraphics[width=\paperwidth,height=\paperheight]{封面.png}
+    }
+}
 
 % 字体
 \setCJKmainfont{Source Han Serif SC}
@@ -41,9 +42,7 @@
 \pagestyle{fancy}
 \fancyhead[L]{· \hspace{0.1cm} \thepage \hspace{0.1cm} ·}
 \fancyhead[C]{红 \hspace{0.08cm} 石 \hspace{0.08cm} 数 \hspace{0.08cm} 电 \hspace{0.08cm} 评 \hspace{0.08cm} 论\\\scriptsize{Review of Redstonic Digital Circuit}}
-\fancyhead[R]{第1期\\\scriptsize{2022年1月}}
-\fancyhead[C]{红~石~数~电~评~论\\\scriptsize{Review of Redstonic Digital Circuit}}
-\fancyhead[R]{2022年1月(第1期)}
+\fancyhead[R]{第1期\\\scriptsize{2022年2月}}
 \fancyfoot[L,C,R]{}
 
 % 首页页码
@@ -62,7 +61,8 @@
 \vspace{-0.3cm}
 \begin{center}
     \fontsize{46pt}{54.2pt} \textbf{红石数电评论} \\
-    \Large Review of Redstonic Digital Circuit
+    \Large Review of Redstonic Digital Circuit \\
+    \Large 第1期(2022年2月)
 \end{center}
 \vspace{-1cm}
 
@@ -119,5 +119,20 @@
 }
 
 \thispagestyle{fancy}
+\quad
+
+% 版权页
+\begin{wrapfigure}{r}{0.2\linewidth}
+    \vspace{-2cm}
+    \includegraphics[width=\linewidth]{qrcode.png}
+\end{wrapfigure}
+
+\vspace{2cm}
+
+\noindent
+\sffamily 编辑: \hspace{0.2cm}\normalfont @辰占鳌头\hspace{0.5cm}@NKID00 \\
+\sffamily 封面: \hspace{0.2cm}\normalfont @NKID00 \\
+\sffamily 出品: \hspace{0.2cm}\normalfont 先进红石数电技术研讨组(ARS) \\
+\sffamily 投稿: \hspace{0.2cm}\normalfont \href{https://github.com/ARS-MC/RRDC/issues/new?assignees=&labels=%E6%8A%95%E7%A8%BF&template=contribute.md&title=%E5%9C%A8%E6%AD%A4%E5%A4%84%E5%A1%AB%E5%86%99%E6%A0%87%E9%A2%98}{在GitHub存储库中提交issue} 或扫描右侧 QR 码加入 QQ 群
 
 \end{document}

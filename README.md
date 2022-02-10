@@ -6,7 +6,7 @@
 
 ## 投稿
 
-投稿请[提交 issue](https://github.com/ARS-MC/RRDC/issues/new?assignees=&labels=%E6%8A%95%E7%A8%BF&template=----.md&title=%E5%9C%A8%E6%AD%A4%E5%A4%84%E5%A1%AB%E5%86%99%E6%A0%87%E9%A2%98) 或扫描右侧 QR 码加入 QQ 群。目前期刊接受论文和通讯两类文章的投稿，内容可参考往期来稿。
+投稿请[提交 issue](https://github.com/ARS-MC/RRDC/issues/new?assignees=&labels=%E6%8A%95%E7%A8%BF&template=contribute.md&title=%E5%9C%A8%E6%AD%A4%E5%A4%84%E5%A1%AB%E5%86%99%E6%A0%87%E9%A2%98) 或扫描右侧 QR 码加入 QQ 群。目前期刊接受论文和通讯两类文章的投稿，内容可参考往期来稿。
 
 注意：
 - 来稿会经过数次审核和编辑，可能会被要求进行修改。
