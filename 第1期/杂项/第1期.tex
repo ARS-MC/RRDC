@@ -14,6 +14,7 @@
 \usepackage{graphicx}  % 图片路径
 \usepackage[pages=some]{background}  % 封面
 \usepackage{pdfpages}  % 正文
+\usepackage{bookmark}  % 书签
 
 % 图片路径
 \graphicspath{{figures/}}
@@ -46,39 +47,48 @@
 \fancyhead[R]{第1期\\\scriptsize{2022年2月}}
 \fancyfoot[L,C,R]{}
 
-
 \begin{document}
 
 % 封面
 \thispagestyle{empty}
 \BgThispage
 \quad
-
-% 目次
 \newpage
 \setcounter{page}{1}
+
+% 目录
 \tableofcontents
 
-% 正文
-% \foreach \filename in {
-%     基于基本红石电路的函数绘图显示器,
-%     基于石墙电路的随机存取存储器,
-%     基于石墙控制线的存储器内的微时序特性分析及应用,
-%     基于RV32M标准的运算器实现,
-%     更高效的乘法器——树状乘法器原理与建造,
-%     串行二进制转十进制方案,
-%     潜影盒存储——不可堆叠物品解码方案,
-%     潜影盒倒序装填器
-% }{
-%     \includepdf[pages=-]{../预印本/\filename/\filename.pdf}
-% }
-\includepdf[pages=-]{../预印本/基于基本红石电路的函数绘图显示器/基于基本红石电路的函数绘图显示器.pdf}
-\includepdf[pages=-]{../预印本/基于石墙电路的随机存取存储器/基于石墙电路的随机存取存储器.pdf}
-\includepdf[pages=-]{../预印本/基于石墙控制线的存储器内的微时序特性分析及应用/基于石墙控制线的存储器内的微时序特性分析及应用.pdf}
-\includepdf[pages=-]{../预印本/基于RV32M标准的运算器实现/基于RV32M标准的运算器实现.pdf}
-\includepdf[pages=-]{../预印本/更高效的乘法器——树状乘法器原理与建造/更高效的乘法器——树状乘法器原理与建造.pdf}
-\includepdf[pages=-]{../预印本/串行二进制转十进制方案/串行二进制转十进制方案.pdf}
-\includepdf[pages=-]{../预印本/潜影盒存储——不可堆叠物品解码方案/潜影盒存储——不可堆叠物品解码方案.pdf}
-\includepdf[pages=-]{../预印本/潜影盒倒序装填器/潜影盒倒序装填器.pdf}
+% 论文
+\foreach \name in {
+    基于基本红石电路的函数绘图显示器,
+    基于石墙电路的随机存取存储器,
+    基于石墙控制线的存储器内的微时序特性分析及应用,
+    基于RV32M标准的运算器实现
+}{
+    \addcontentsline{toc}{section}{\name}
+    \bookmark{\name}
+    \includepdf[pages=-]{../预印本/\name/\name.pdf}
+}
+% \includepdf[pages=-]{../预印本/基于基本红石电路的函数绘图显示器/基于基本红石电路的函数绘图显示器.pdf}
+% \includepdf[pages=-]{../预印本/基于石墙电路的随机存取存储器/基于石墙电路的随机存取存储器.pdf}
+% \includepdf[pages=-]{../预印本/基于石墙控制线的存储器内的微时序特性分析及应用/基于石墙控制线的存储器内的微时序特性分析及应用.pdf}
+% \includepdf[pages=-]{../预印本/基于RV32M标准的运算器实现/基于RV32M标准的运算器实现.pdf}
+
+% 通讯
+\foreach \name in {
+    更高效的乘法器——树状乘法器原理与建造,
+    串行二进制转十进制方案,
+    潜影盒存储——不可堆叠物品解码方案,
+    潜影盒倒序装填器
+}{
+    \addcontentsline{toc}{section}{\name}
+    \bookmark{\name}
+    \includepdf[pages=-]{../预印本/\name/\name.pdf}
+}
+% \includepdf[pages=-]{../预印本/更高效的乘法器——树状乘法器原理与建造/更高效的乘法器——树状乘法器原理与建造.pdf}
+% \includepdf[pages=-]{../预印本/串行二进制转十进制方案/串行二进制转十进制方案.pdf}
+% \includepdf[pages=-]{../预印本/潜影盒存储——不可堆叠物品解码方案/潜影盒存储——不可堆叠物品解码方案.pdf}
+% \includepdf[pages=-]{../预印本/潜影盒倒序装填器/潜影盒倒序装填器.pdf}
 
 \end{document}
