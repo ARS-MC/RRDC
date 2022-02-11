@@ -83,10 +83,10 @@ jobs:
                   )).split(' ')[1])
               ) for name, author in contents[type_]]
               with open(root / f'{type_}.inc', 'w', encoding='utf8') as f:
-                  print('\foreach \fileName\authorName\pageNumber in {', file=f)
+                  print('\\foreach \\fileName\\authorName\\pageNumber in {', file=f)
                   for name, author, page in articles:
                       print(f'{name}/{author}/{page},', file=f)
-                  print('}{\addContent}', file=f)
+                  print('}{\\addContent}', file=f)
       - name: 编译封面 LaTeX
         uses: xu-cheng/latex-action@v2
         with:
@@ -95,6 +95,7 @@ jobs:
           glob_root_file: true
           latexmk_use_xelatex: true
           work_in_root_file_dir: true
+          pre_compile: rm -rf /opt/texlive/texdir/texmf-dist/fonts/type1/ && fc-cache -f
           post_compile: mv ${{ format('./第{0}期/杂项/封面.pdf', env.LATEST) }} ./pdfs/
       - name: 整合 pdf 文件
         shell: python
