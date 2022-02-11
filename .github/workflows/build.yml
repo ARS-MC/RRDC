@@ -145,6 +145,7 @@ jobs:
       - uses: softprops/action-gh-release@v0.1.14
         if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
         with:
+          prerelease: true
           tag_name: ${{ format('build-{0}', github.run_number) }}
           name: ${{ format('第 {0} 期预印本 build.{1}', env.LATEST, github.run_number) }}
           body_path: ${{ github.workspace }}/pdfs/release_body
