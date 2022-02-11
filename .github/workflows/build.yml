@@ -111,7 +111,7 @@ jobs:
               contents = load(f)
           articles = sum(([pdfs_root / f'{name}.pdf' for name, author in contents[type_]] for type_ in ('论文', '通讯')), start=[])
           cover = pdfs_root / '封面.pdf'
-          system(f'pdftk {cover} {articles} cat output ./pdfs/第{latest}期.pdf')
+          system(f'pdftk {cover} {" ".join(articles)} cat output ./pdfs/第{latest}期.pdf')
       - name: 重命名编译出的 pdf 文件
         run: |
           cd pdfs
@@ -121,8 +121,8 @@ jobs:
           由于 GitHub Actions 上传 release 资源时不支持包含特殊字符和 Unicode 的文件名，文件已被重命名。单击文件名将自动跳转到对应的文件：
           EOF
           for (( i=0; i<${#pdf_files[*]}; ++i )); do
-            mv "${pdf_files[$i]}" "build-${RUN_NUMBER}-${i}.pdf"
-            echo "- [${pdf_files[$i]}](https://github.com/ARS-MC/RRDC/releases/download/build-${RUN_NUMBER}/build-${RUN_NUMBER}-${i}.pdf)" >> release_body
+            mv "${pdf_files[$i]}" "${i}-build-${RUN_NUMBER}.pdf"
+            echo "- [${pdf_files[$i]}](https://github.com/ARS-MC/RRDC/releases/download/build-${RUN_NUMBER}/${i}-build-${RUN_NUMBER}.pdf)" >> release_body
           done
         env:
           RUN_NUMBER: ${{ github.run_number }}
