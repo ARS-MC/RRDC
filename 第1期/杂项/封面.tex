@@ -11,23 +11,23 @@
 \usepackage[pages=some]{background}  % 封面
 \usepackage{bookmark}  % 书签
 \usepackage{anyfontsize}  % 字体大小
-\usepackage{tocloft}  % 目录
 \usepackage{ifthen}  % 判断
 \usepackage{wrapfig}  % 文字并排图片
+\usepackage{setspace} % 行距
 
 % 图片路径
 \graphicspath{{figures/}}
 
 % 封面
-% \backgroundsetup{
-%     scale=1,
-%     color=black,
-%     opacity=1,
-%     angle=0,
-%     contents={
-%         \includegraphics[width=\paperwidth,height=\paperheight]{封面.png}
-%     }
-% }
+\backgroundsetup{
+    scale=1,
+    color=black,
+    opacity=1,
+    angle=0,
+    contents={
+        \includegraphics[width=\paperwidth,height=\paperheight]{封面.png}
+    }
+}
 
 % 字体
 \setCJKmainfont{Source Han Serif SC}
@@ -49,6 +49,9 @@
 % 首页页码
 \setcounter{page}{1}
 
+% 无首行缩进
+\setlength\parindent{0pt}
+
 \begin{document}
 
 % 封面
@@ -65,20 +68,11 @@
     \Large Review of Redstonic Digital Circuit \\
     \Large 第1期(2022年2月)
 \end{center}
-\vspace{-1cm}
 
 % 目录
-\renewcommand{\contentsname}{}
-\renewcommand{\cftdot}{\ensuremath{\cdots}}
-\renewcommand{\cftsecleader}{\cftdotfill{1.5}}
-\renewcommand{\cftsecfont}{\normalfont}
-\renewcommand{\cftsecpagefont}{\normalfont}
-% \cftsetpnumwidth{5.5cm}
-% \cftsetrmarg{5.5cm}
-
-\tableofcontents
-
-% 页码
+\makeatletter
+\newcommand{\cdotfill}{\leavevmode\cleaders\hb@xt@ 0.56cm{\hss\ensuremath{\cdots}\hss }\hfill\kern\z@}
+\makeatother
 \newcounter{currentPageNumber}
 \setcounter{currentPageNumber}{3}
 \newcounter{nextPageNumber}
@@ -87,18 +81,24 @@
     \ifthenelse{\pageNumber>1}{
         \addtocounter{nextPageNumber}{\pageNumber}
         \addtocounter{nextPageNumber}{-1}
-        \addtocontents{toc}{\string\contentsline{section}{\string\hyperlink{page.\arabic{currentPageNumber}}{\fileName}}{\authorName \quad \arabic{currentPageNumber} - \arabic{nextPageNumber}}{}}
+        \hyperlink{page.\arabic{currentPageNumber}}{\fileName\cdotfill\authorName\quad\arabic{currentPageNumber} - \arabic{nextPageNumber}}
     }{
-        \addtocontents{toc}{\string\contentsline{section}{\string\hyperlink{page.\arabic{currentPageNumber}}{\fileName}}{\authorName \quad \arabic{currentPageNumber}}{}}
+        \hyperlink{page.\arabic{currentPageNumber}}{\fileName\cdotfill\authorName\quad\arabic{currentPageNumber}}
     }
     \bookmark[page={\arabic{currentPageNumber}}]{\fileName}
     \addtocounter{currentPageNumber}{\pageNumber}
+    
 }
 
 % TODO: 自动填写模板
 
+\begin{spacing}{2.0}
+
 % 论文
-\addtocontents{toc}{\string\contentsline{part}{论文}{}{}}
+% \addtocontents{toc}{\string\contentsline{part}{论文}{}{}}
+\large\sffamily\bfseries 论文
+
+\normalsize\normalfont
 \foreach \fileName\authorName\pageNumber in {
     基于基本红石电路的函数绘图显示器/@章鱼千\hspace{-0.015cm}\_zhyq/4,
     基于石墙电路的随机存取存储器/{@辰占鳌头,@NKID00}/2,
@@ -107,9 +107,11 @@
 }{
     \addContent
 }
-
 % 通讯
-\addtocontents{toc}{\string\contentsline{part}{通讯}{}{}}
+% \addtocontents{toc}{\string\contentsline{part}{通讯}{}{}}
+\large\sffamily\bfseries 通讯
+
+\normalsize\normalfont
 \foreach \fileName\authorName\pageNumber in {
     更高效的乘法器——树状乘法器原理与建造/作者/1,
     串行二进制转十进制方案/作者/1,
@@ -119,20 +121,23 @@
     \addContent
 }
 
-\thispagestyle{fancy}
-\quad
+\end{spacing}
+
+\vspace{1cm}
 
 % 版权页
+\begin{spacing}{1.5}
 \begin{wrapfigure}{r}{0.25\linewidth}
-    \vspace{-3.5cm}
+    \vspace{-2.5cm}
     \includegraphics[width=\linewidth]{qrcode.png}
-\end{wrapfigure}
-
-\vspace{2cm}
-\hspace{0.3cm}
+\end{wrapfigure}    
+\hspace{1cm}
 \begin{minipage}[c]{0.55\linewidth}
     \titleformat{\section}[leftmargin]{\sffamily\bfseries}{}{0cm}{}
     \titlespacing{\section}{1.2cm}{1ex}{0cm}
+
+    \section*{主办}
+    先进红石数电技术研讨组(ARS)
 
     \section*{编辑}
     @辰占鳌头\hspace{0.5cm}@NKID00
@@ -140,17 +145,12 @@
     \section*{封面}
     @NKID00
 
-    \section*{出品}
-    先进红石数电技术研讨组(ARS)
+    \section*{链接}
+    \url{https://github.com/ARS-MC/RRDC}
 
     \section*{投稿}
     \href{https://github.com/ARS-MC/RRDC/issues/new?assignees=&labels=%E6%8A%95%E7%A8%BF&template=contribute.md&title=%E5%9C%A8%E6%AD%A4%E5%A4%84%E5%A1%AB%E5%86%99%E6%A0%87%E9%A2%98}{在GitHub存储库中提交issue} 或扫描右侧 QR 码加入 QQ 群
 \end{minipage}
-
-% \noindent
-% \sffamily 编辑: \hspace{0.2cm}\normalfont @辰占鳌头\hspace{0.5cm}@NKID00 \\
-% \sffamily 封面: \hspace{0.2cm}\normalfont @NKID00 \\
-% \sffamily 出品: \hspace{0.2cm}\normalfont 先进红石数电技术研讨组(ARS) \\
-% \sffamily 投稿: \hspace{0.2cm}\normalfont \href{https://github.com/ARS-MC/RRDC/issues/new?assignees=&labels=%E6%8A%95%E7%A8%BF&template=contribute.md&title=%E5%9C%A8%E6%AD%A4%E5%A4%84%E5%A1%AB%E5%86%99%E6%A0%87%E9%A2%98}{在GitHub存储库中提交issue} 或扫描右侧 QR 码加入 QQ 群
+\end{spacing}
 
 \end{document}
