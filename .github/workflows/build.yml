@@ -70,7 +70,8 @@ jobs:
           latest = environ['LATEST']
           root = Path(f'./第{latest}期/杂项/')
           pdfs_root = Path('./pdfs/')
-          contents = load(root / '目录.json')
+          with open(root / '目录.json', 'r', encoding='utf8') as f:
+              contents = load(f)
           for type_ in ('论文', '通讯'):
               articles = [(
                   name, author,
