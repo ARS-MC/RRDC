@@ -6,6 +6,7 @@
 \usepackage[pageanchor,colorlinks=true,linkcolor=black,citecolor=black,urlcolor=black,linktoc=none]{hyperref}
 \usepackage{geometry}  % 页面布局
 \usepackage{fancyhdr}  % 页眉页脚
+\usepackage{titlesec}  % 标题
 \usepackage{graphicx}  % 图片路径
 \usepackage[pages=some]{background}  % 封面
 \usepackage{bookmark}  % 书签
@@ -18,15 +19,15 @@
 \graphicspath{{figures/}}
 
 % 封面
-\backgroundsetup{
-    scale=1,
-    color=black,
-    opacity=1,
-    angle=0,
-    contents={
-        \includegraphics[width=\paperwidth,height=\paperheight]{封面.png}
-    }
-}
+% \backgroundsetup{
+%     scale=1,
+%     color=black,
+%     opacity=1,
+%     angle=0,
+%     contents={
+%         \includegraphics[width=\paperwidth,height=\paperheight]{封面.png}
+%     }
+% }
 
 % 字体
 \setCJKmainfont{Source Han Serif SC}
@@ -122,17 +123,34 @@
 \quad
 
 % 版权页
-\begin{wrapfigure}{r}{0.2\linewidth}
-    \vspace{-2cm}
+\begin{wrapfigure}{r}{0.25\linewidth}
+    \vspace{-3.5cm}
     \includegraphics[width=\linewidth]{qrcode.png}
 \end{wrapfigure}
 
 \vspace{2cm}
+\hspace{0.3cm}
+\begin{minipage}[c]{0.55\linewidth}
+    \titleformat{\section}[leftmargin]{\sffamily\bfseries}{}{0cm}{}
+    \titlespacing{\section}{1.2cm}{1ex}{0cm}
 
-\noindent
-\sffamily 编辑: \hspace{0.2cm}\normalfont @辰占鳌头\hspace{0.5cm}@NKID00 \\
-\sffamily 封面: \hspace{0.2cm}\normalfont @NKID00 \\
-\sffamily 出品: \hspace{0.2cm}\normalfont 先进红石数电技术研讨组(ARS) \\
-\sffamily 投稿: \hspace{0.2cm}\normalfont \href{https://github.com/ARS-MC/RRDC/issues/new?assignees=&labels=%E6%8A%95%E7%A8%BF&template=contribute.md&title=%E5%9C%A8%E6%AD%A4%E5%A4%84%E5%A1%AB%E5%86%99%E6%A0%87%E9%A2%98}{在GitHub存储库中提交issue} 或扫描右侧 QR 码加入 QQ 群
+    \section*{编辑}
+    @辰占鳌头\hspace{0.5cm}@NKID00
+
+    \section*{封面}
+    @NKID00
+
+    \section*{出品}
+    先进红石数电技术研讨组(ARS)
+
+    \section*{投稿}
+    \href{https://github.com/ARS-MC/RRDC/issues/new?assignees=&labels=%E6%8A%95%E7%A8%BF&template=contribute.md&title=%E5%9C%A8%E6%AD%A4%E5%A4%84%E5%A1%AB%E5%86%99%E6%A0%87%E9%A2%98}{在GitHub存储库中提交issue} 或扫描右侧 QR 码加入 QQ 群
+\end{minipage}
+
+% \noindent
+% \sffamily 编辑: \hspace{0.2cm}\normalfont @辰占鳌头\hspace{0.5cm}@NKID00 \\
+% \sffamily 封面: \hspace{0.2cm}\normalfont @NKID00 \\
+% \sffamily 出品: \hspace{0.2cm}\normalfont 先进红石数电技术研讨组(ARS) \\
+% \sffamily 投稿: \hspace{0.2cm}\normalfont \href{https://github.com/ARS-MC/RRDC/issues/new?assignees=&labels=%E6%8A%95%E7%A8%BF&template=contribute.md&title=%E5%9C%A8%E6%AD%A4%E5%A4%84%E5%A1%AB%E5%86%99%E6%A0%87%E9%A2%98}{在GitHub存储库中提交issue} 或扫描右侧 QR 码加入 QQ 群
 
 \end{document}
