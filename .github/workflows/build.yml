@@ -112,7 +112,7 @@ jobs:
           articles = map(str, sum(([pdfs_root / f'{name}.pdf' for name, author in contents[type_]] for type_ in ('论文', '通讯')), start=[]))
           cover = pdfs_root / '封面.pdf'
           system(f'pdftk {cover} {" ".join(articles)} cat output ./pdfs/第{latest}期.pdf')
-      - name: 重命名编译出的 pdf 文件
+      - name: 重命名 pdf 文件
         run: |
           cd pdfs
           readarray -t pdf_files < <(ls -1)

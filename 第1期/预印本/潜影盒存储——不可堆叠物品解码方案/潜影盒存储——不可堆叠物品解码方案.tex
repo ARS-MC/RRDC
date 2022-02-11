@@ -2,10 +2,7 @@
 \documentclass[UTF8,12pt,punct=kaiming,fontset=none]{ctexart}
 \usepackage{fontspec}  % 字体
 \usepackage{subcaption}  % 节标题
-% 品红色链接和注释
-% \usepackage[colorlinks=true, linkcolor=magenta, citecolor=magenta, urlcolor=magenta]{hyperref}
-% 黑色链接和注释
-\usepackage[colorlinks=true,linkcolor=black,citecolor=black,urlcolor=black]{hyperref}
+\usepackage[colorlinks=true, linkcolor=magenta, citecolor=magenta, urlcolor=magenta,bookmarks=false]{hyperref}  % 超链接
 \usepackage{geometry}  % 页面布局
 \usepackage{fancyhdr}  % 页眉页脚
 \usepackage{titlesec}  % 标题
@@ -39,7 +36,7 @@
 \fancyfoot[L,C,R]{}
 
 % 首页页码
-\setcounter{page}{1}
+\input{页码.inc}
 
 % 标题
 \title{\vspace{-1.5cm}潜影盒存储——不可堆叠物品解码方案\vspace{-0.5cm}}
@@ -52,8 +49,10 @@
 }
 
 \begin{document}
+\pdfbookmark{潜影盒存储——不可堆叠物品解码方案}{\thepage}  % 书签
+\hypersetup{bookmarksdepth=-1}  % 禁止后续书签
 \maketitle
-\thispagestyle{fancy} % 首页页眉页脚
+\thispagestyle{fancy}  % 首页页眉页脚
 \vspace{-0.7cm}
 
 % 节标题格式
