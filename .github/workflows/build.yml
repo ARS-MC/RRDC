@@ -76,7 +76,7 @@ jobs:
                   name, author,
                   int(next(filter(
                       lambda s: s.startswith('NumberOfPages:'),
-                      popen(f'pdftk {pdfs_root / (name + '.pdf')} dump_data_utf8').read().splitlines(keepends=False)
+                      popen(f'pdftk {pdfs_root / (name + ".pdf")} dump_data_utf8').read().splitlines(keepends=False)
                   )).split(' ')[1])
               ) for name, author in contents[type_]]
               with open(root / f'{type_}.inc', 'w', encoding='utf8') as f:
@@ -84,7 +84,7 @@ jobs:
                   for name, author, page in articles:
                       print(f'{name}/{author}/{page},', file=f)
                   print('}{\addContent}', file=f)
-      - name: 编译目录 LaTeX
+      - name: 编译封面 LaTeX
         uses: xu-cheng/latex-action@v2
         with:
           extra_fonts: ./fonts/*
