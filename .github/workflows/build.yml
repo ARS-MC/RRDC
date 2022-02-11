@@ -56,7 +56,7 @@ jobs:
       - name: 创建文件夹
         run: mkdir pdfs
       - name: 编译 LaTeX
-        uses: xu-cheng/latex-action@v2
+        uses: NKID00/latex-action@feat-multitask
         with:
           extra_fonts: ./fonts/*
           root_file: ${{ format('./第{0}期/预印本/*/*.tex', env.LATEST) }}
@@ -65,6 +65,7 @@ jobs:
           work_in_root_file_dir: true
           pre_compile: rm -rf /opt/texlive/texdir/texmf-dist/fonts/type1/ && fc-cache -f
           post_compile: mv ${{ format('./第{0}期/预印本/*/*.pdf', env.LATEST) }} ./pdfs/
+          multitask: true
       - name: 生成页码和目录
         shell: python
         run: |
@@ -98,7 +99,7 @@ jobs:
                   print(*(f'{{{name}}}/{{{author}}}/{page}' for name, author, page in articles), sep=',\n', file=f)
                   print('}{\\addContent}', file=f)
       - name: 用生成的页码和目录重新编译 LaTeX
-        uses: xu-cheng/latex-action@v2
+        uses: NKID00/latex-action@feat-multitask
         with:
           extra_fonts: ./fonts/*
           root_file: |
@@ -109,6 +110,7 @@ jobs:
           work_in_root_file_dir: true
           pre_compile: rm -rf /opt/texlive/texdir/texmf-dist/fonts/type1/ && fc-cache -f
           post_compile: mv ${{ format('./第{0}期/预印本/*/*.pdf', env.LATEST) }} ./pdfs/ && mv ${{ format('./第{0}期/杂项/封面.pdf', env.LATEST) }} ./pdfs/
+          multitask: true
       - name: 整合 pdf 文件
         shell: python
         run: |
