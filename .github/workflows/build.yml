@@ -10,6 +10,8 @@ jobs:
         run: |
           echo "DATE=$(date -u +'%Y-%m-%dT%H:%M:%SZ')" >> $GITHUB_ENV
           echo "DATE_FILE_NAME=$(date -u +'%Y-%m-%dT%H%M%SZ')" >> $GITHUB_ENV
+      - name: 安装依赖
+        run: sudo apt install -y pdftk
       - uses: actions/checkout@v2
       - name: 下载字体
         run: |
