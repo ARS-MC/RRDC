@@ -53,6 +53,8 @@ jobs:
                       latest = number
           with open(environ['GITHUB_ENV'], 'w', encoding='utf8') as f:
               print(f'LATEST={latest}', file=f)
+      - name: 创建文件夹
+        run: mkdir pdfs
       - name: 编译 LaTeX
         uses: xu-cheng/latex-action@v2
         with:
@@ -62,7 +64,7 @@ jobs:
           latexmk_use_xelatex: true
           work_in_root_file_dir: true
           pre_compile: rm -rf /opt/texlive/texdir/texmf-dist/fonts/type1/ && fc-cache -f
-          post_compile: mkdir pdfs && mv ${{ format('./第{0}期/预印本/*/*.pdf', env.LATEST) }} ./pdfs/
+          post_compile: mv ${{ format('./第{0}期/预印本/*/*.pdf', env.LATEST) }} ./pdfs/
       - name: 生成目录
         shell: python
         run: |
@@ -119,8 +121,8 @@ jobs:
           由于 GitHub Actions 上传 release 资源时不支持包含特殊字符和 Unicode 的文件名，文件已被重命名。单击文件名将自动跳转到对应的文件：
           EOF
           for (( i=0; i<${#pdf_files[*]}; ++i )); do
-            mv "${pdf_files[$i]}" "${i}.pdf"
-            echo "- [${pdf_files[$i]}](https://github.com/ARS-MC/RRDC/releases/download/build-${RUN_NUMBER}/${i}.pdf)" >> release_body
+            mv "${pdf_files[$i]}" "build-${RUN_NUMBER}-${i}.pdf"
+            echo "- [${pdf_files[$i]}](https://github.com/ARS-MC/RRDC/releases/download/build-${RUN_NUMBER}/build-${RUN_NUMBER}-${i}.pdf)" >> release_body
           done
         env:
           RUN_NUMBER: ${{ github.run_number }}
