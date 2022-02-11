@@ -109,7 +109,7 @@ jobs:
           pdfs_root = Path('./pdfs/')
           with open(root / '目录.json', 'r', encoding='utf8') as f:
               contents = load(f)
-          articles = sum(([pdfs_root / f'{name}.pdf' for name, author in contents[type_]] for type_ in ('论文', '通讯')), start=[])
+          articles = map(str, sum(([pdfs_root / f'{name}.pdf' for name, author in contents[type_]] for type_ in ('论文', '通讯')), start=[]))
           cover = pdfs_root / '封面.pdf'
           system(f'pdftk {cover} {" ".join(articles)} cat output ./pdfs/第{latest}期.pdf')
       - name: 重命名编译出的 pdf 文件
