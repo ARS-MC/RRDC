@@ -65,7 +65,7 @@ jobs:
           work_in_root_file_dir: true
           pre_compile: rm -rf /opt/texlive/texdir/texmf-dist/fonts/type1/ && fc-cache -f
           post_compile: mv ${{ format('./第{0}期/预印本/*/*.pdf', env.LATEST) }} ./pdfs/
-      - name: 生成目录
+      - name: 生成页码和目录
         shell: python
         run: |
           from os import environ, popen
@@ -73,10 +73,13 @@ jobs:
           from pathlib import Path
           latest = environ['LATEST']
           root = Path(f'./第{latest}期/杂项/')
+          texs_root = Path(f'./第{latest}期/')
           pdfs_root = Path('./pdfs/')
           with open(root / '目录.json', 'r', encoding='utf8') as f:
               contents = load(f)
+          current_page = 3
           for type_ in ('论文', '通讯'):
+              # 获取页码
               articles = [(
                   name, author,
                   int(next(filter(
@@ -84,15 +87,23 @@ jobs:
                       popen(f'pdftk {pdfs_root / (name + ".pdf")} dump_data_utf8').read().splitlines(keepends=False)
                   )).split(' ')[1])
               ) for name, author in contents[type_]]
+              # 生成页码
+              for name, author, page in articles:
+                  with open(texs_root / name / '页码.inc', 'w', encoding='utf8') as f:
+                      print(f'\\setcounter{{page}}{{{current_page}}}', file=f)
+                  current_page += page
+              # 生成目录
               with open(root / f'{type_}.inc', 'w', encoding='utf8') as f:
                   print('\\foreach \\fileName\\authorName\\pageNumber in {', file=f)
                   print(*(f'{{{name}}}/{{{author}}}/{page}' for name, author, page in articles), sep=',\n', file=f)
                   print('}{\\addContent}', file=f)
-      - name: 编译封面 LaTeX
+      - name: 用生成的页码和目录重新编译 LaTeX
         uses: xu-cheng/latex-action@v2
         with:
           extra_fonts: ./fonts/*
-          root_file: ${{ format('./第{0}期/杂项/封面.tex', env.LATEST) }}
+          root_file: |
+            ${{ format('./第{0}期/预印本/*/*.tex', env.LATEST) }}
+            ${{ format('./第{0}期/杂项/封面.tex', env.LATEST) }}
           glob_root_file: true
           latexmk_use_xelatex: true
           work_in_root_file_dir: true
