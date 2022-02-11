@@ -55,18 +55,59 @@ jobs:
         uses: xu-cheng/latex-action@v2
         with:
           extra_fonts: ./fonts/*
-          root_file: |
-            ${{ format('./第{0}期/预印本/*/*.tex', env.LATEST) }}
-            ${{ format('./第{0}期/杂项/封面.tex', env.LATEST) }}
+          root_file: ${{ format('./第{0}期/预印本/*/*.tex', env.LATEST) }}
           glob_root_file: true
           latexmk_use_xelatex: true
-          pre_compile: rm -rf /opt/texlive/texdir/texmf-dist/fonts/type1/ && fc-cache -f
           work_in_root_file_dir: true
-      - name: 复制并重命名编译出的 pdf 文件
+          pre_compile: rm -rf /opt/texlive/texdir/texmf-dist/fonts/type1/ && fc-cache -f
+          post_compile: mkdir pdfs && mv ${{ format('./第{0}期/预印本/*/*.pdf', env.LATEST) }} ./pdfs/
+      - name: 生成目录
+        shell: python
         run: |
-          mkdir pdfs
-          mv ${{ format('./第{0}期/预印本/*/*.pdf', env.LATEST) }} ./pdfs/
-          mv ${{ format('./第{0}期/杂项/封面.pdf', env.LATEST) }} ./pdfs/
+          from os import environ, popen
+          from json import load
+          from pathlib import Path
+          latest = environ['LATEST']
+          root = Path(f'./第{latest}期/杂项/')
+          pdfs_root = Path('./pdfs/')
+          contents = load(root / '目录.json')
+          for type_ in ('论文', '通讯'):
+              articles = [(
+                  name, author,
+                  int(next(filter(
+                      lambda s: s.startswith('NumberOfPages:'),
+                      popen(f'pdftk {pdfs_root / (name + '.pdf')} dump_data_utf8').read().splitlines(keepends=False)
+                  )).split(' ')[1])
+              ) for name, author in contents[type_]]
+              with open(root / f'{type_}.inc', 'w', encoding='utf8') as f:
+                  print('\foreach \fileName\authorName\pageNumber in {', file=f)
+                  for name, author, page in articles:
+                      print(f'{name}/{author}/{page},', file=f)
+                  print('}{\addContent}', file=f)
+      - name: 编译目录 LaTeX
+        uses: xu-cheng/latex-action@v2
+        with:
+          extra_fonts: ./fonts/*
+          root_file: ${{ format('./第{0}期/杂项/封面.tex', env.LATEST) }}
+          glob_root_file: true
+          latexmk_use_xelatex: true
+          work_in_root_file_dir: true
+          post_compile: mv ${{ format('./第{0}期/杂项/封面.pdf', env.LATEST) }} ./pdfs/
+      - name: 整合 pdf 文件
+        shell: python
+        run: |
+          from os import environ, system
+          from json import load
+          from pathlib import Path
+          latest = environ['LATEST']
+          root = Path(f'./第{latest}期/杂项/')
+          pdfs_root = Path('./pdfs/')
+          contents = load(root / '目录.json')
+          articles = sum([pdfs_root / f'{name}.pdf' for name, author in contents[type_]] for type_ in ('论文', '通讯'))
+          cover = pdfs_root / '封面.pdf'
+          system(f'pdftk {cover} {articles} cat output ./pdfs/第{latest}期.pdf')
+      - name: 重命名编译出的 pdf 文件
+        run: |
           cd pdfs
           readarray -t pdf_files < <(ls -1)
           cat << EOF > release_body
@@ -79,32 +120,6 @@ jobs:
           done
         env:
           RUN_NUMBER: ${{ github.run_number }}
-      # - name: 整合 pdf 文件
-      #   shell: python
-      #   run: |
-      #     from os import environ, system, popen
-      #     from json import load
-      #     from pathlib import Path
-      #     latest = environ['LATEST']
-      #     root = Path('./第{latest}期/')
-      #     contents = load(root / '杂项' / '目录.json')
-      #     articles = [(
-      #         name,
-      #         int(next(filter(
-      #             lambda s: s.startswith('NumberOfPages:'),
-      #             popen(f'pdftk {root / name / (name + '.pdf')} dump_data_utf8').read().splitlines(keepends=False)
-      #         )).split(' ')[1])
-      #     ) for name in contents['论文']]
-      #     reports = [(
-      #         name,
-      #         int(next(filter(
-      #             lambda s: s.startswith('NumberOfPages:'),
-      #             popen(f'pdftk {root / name / (name + '.pdf')} dump_data_utf8').read().splitlines(keepends=False)
-      #         )).split(' ')[1])
-      #     ) for name in contents['通讯']]
-      #     cover = root / '杂项' / '封面和目录.pdf'
-      #     pdfs = ' '.join(root / name / f'{name}.pdf' for name in contents['论文'] + contents['通讯'])
-      #     system(f'pdftk {cover} {pdfs} cat output ./pdfs/第{latest}期.pdf')
       - uses: anothrNick/github-tag-action@1.36.0
         if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
         env:

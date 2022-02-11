@@ -19,15 +19,15 @@
 \graphicspath{{figures/}}
 
 % 封面
-\backgroundsetup{
-    scale=1,
-    color=black,
-    opacity=1,
-    angle=0,
-    contents={
-        \includegraphics[width=\paperwidth,height=\paperheight]{封面.png}
-    }
-}
+% \backgroundsetup{
+%     scale=1,
+%     color=black,
+%     opacity=1,
+%     angle=0,
+%     contents={
+%         \includegraphics[width=\paperwidth,height=\paperheight]{封面.png}
+%     }
+% }
 
 % 字体
 \setCJKmainfont{Source Han Serif SC}
@@ -99,27 +99,14 @@
 \large\sffamily\bfseries 论文
 
 \normalsize\normalfont
-\foreach \fileName\authorName\pageNumber in {
-    基于基本红石电路的函数绘图显示器/@章鱼千\hspace{-0.015cm}\_zhyq/4,
-    基于石墙电路的随机存取存储器/{@辰占鳌头,@NKID00}/2,
-    基于石墙控制线的存储器内的微时序特性分析及应用/@NKID00/1,
-    基于RV32M标准的运算器实现/{@MorQin,@Nikkeru}/4
-}{
-    \addContent
-}
+\input{论文.inc}
+
 % 通讯
 % \addtocontents{toc}{\string\contentsline{part}{通讯}{}{}}
 \large\sffamily\bfseries 通讯
 
 \normalsize\normalfont
-\foreach \fileName\authorName\pageNumber in {
-    更高效的乘法器——树状乘法器原理与建造/作者/1,
-    串行二进制转十进制方案/作者/1,
-    潜影盒存储——不可堆叠物品解码方案/作者/1,
-    潜影盒倒序装填器/作者/1
-}{
-    \addContent
-}
+\input{通讯.inc}
 
 \end{spacing}
 
