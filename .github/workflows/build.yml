@@ -84,8 +84,7 @@ jobs:
               ) for name, author in contents[type_]]
               with open(root / f'{type_}.inc', 'w', encoding='utf8') as f:
                   print('\\foreach \\fileName\\authorName\\pageNumber in {', file=f)
-                  for name, author, page in articles:
-                      print(f'{{{name}}}/{{{author}}}/{page},', file=f)
+                  print(*(f'{{{name}}}/{{{author}}}/{page}' for name, author, page in articles), sep=',\n', file=f)
                   print('}{\\addContent}', file=f)
       - name: 编译封面 LaTeX
         uses: xu-cheng/latex-action@v2
