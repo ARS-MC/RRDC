@@ -105,7 +105,8 @@ jobs:
           latest = environ['LATEST']
           root = Path(f'./第{latest}期/杂项/')
           pdfs_root = Path('./pdfs/')
-          contents = load(root / '目录.json')
+          with open(root / '目录.json', 'r', encoding='utf8') as f:
+              contents = load(f)
           articles = sum([pdfs_root / f'{name}.pdf' for name, author in contents[type_]] for type_ in ('论文', '通讯'))
           cover = pdfs_root / '封面.pdf'
           system(f'pdftk {cover} {articles} cat output ./pdfs/第{latest}期.pdf')
