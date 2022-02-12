@@ -1,93 +1,51 @@
 % 五号字体，开明式标点处理，不设置默认字体
-\documentclass[UTF8, 12pt, punct=kaiming, fontset=none]{article}
-\usepackage[UTF8]{ctex}
-\usepackage{fontspec}
-\usepackage{float}
-\usepackage{graphicx}
-\usepackage{subcaption}
-\usepackage{pgf-umlsd}
-% 品红色链接和注释
-% \usepackage[colorlinks=true, linkcolor=magenta, citecolor=magenta, urlcolor=magenta]{hyperref}
-% 黑色链接和注释
-\usepackage[colorlinks=true, linkcolor=black, citecolor=black, urlcolor=black]{hyperref}
-\usepackage{geometry}
-\usepackage{fancyhdr}
-\usepackage{caption}
-\usepackage{framed}
-\usepackage{titlesec}
-\usepackage{ragged2e}
+\documentclass[UTF8,12pt,punct=kaiming,fontset=none]{ctexart}
+\usepackage{fontspec}  % 字体
+\usepackage{subcaption}  % 节标题
+\usepackage[colorlinks=true, linkcolor=magenta, citecolor=magenta, urlcolor=magenta]{hyperref}  % 超链接
+\usepackage{geometry}  % 页面布局
+\usepackage{fancyhdr}  % 页眉页脚
+\usepackage{titlesec}  % 标题
+\usepackage{caption}  % 图表标题
+\usepackage{floatrow}  % 图表排版
+\usepackage{graphicx}  % 图片路径
 \usepackage{url}
 \usepackage{cite}
 \usepackage{bookmark}
 \usepackage{lipsum}
 \usepackage{enumitem}
 
+% 图片路径
 \graphicspath{{figures/}}
 
 % 字体
-\IfFontExistsTF{Source Han Serif SC}
-{
-    \setCJKmainfont{Source Han Serif SC}
-}
-{
-    % GitHub Actions
-    \setCJKmainfont[
-        Path=. ./fonts/ ,    
-        Extension = . otf ,
-        UprightFont = *-Regular ,
-        BoldFont = *-Bold
-    ]{SourceHanSerifSC}
-}
-\IfFontExistsTF{Source Han Sans SC}
-{
-    \setCJKsansfont{Source Han Sans SC}
-}
-{
-    % GitHub Actions
-    \setCJKsansfont[
-        Path=. ./fonts/ ,    
-        Extension = . otf ,
-        UprightFont = *-Regular ,
-        BoldFont = *-Bold
-    ]{SourceHanSerifSC}
-}
-\IfFontExistsTF{DejaVu Sans}
-{
-    \newfontfamily\ds{DejaVu Sans}
-}
-{
-    % GitHub Actions
-    \newfontfamily\ds[
-        Path=. ./fonts/ ,    
-        Extension = . ttf ,
-        BoldFont = *-Bold ,
-        ItalicFont = *-Oblique ,
-        BoldItalicFont = *-BoldOblique
-    ]{DejaVuSans}
-}
-%\newfontfamily\cm{CMU}
-
-% 图表标题字体
-\DeclareCaptionFont{captionfont}{\ds}
-\captionsetup[table]{font=captionfont}
-\captionsetup[figure]{font=captionfont}
-
+\setCJKmainfont{Source Han Serif SC}
+\setCJKsansfont{Source Han Sans SC}
+\setmainfont{CMU Serif}
 
 % 布局
-\geometry{a4paper, left=2cm, right=2cm, top=2.5cm, bottom=2.5cm}
+\geometry{a4paper,left=2cm,right=2cm,top=2.5cm,bottom=2.5cm}
 \setlength{\headheight}{25pt}
+
+% 图表标题
+\DeclareCaptionFont{captionfont}{\small}
+\captionsetup{font=captionfont}
+\floatsetup{style=plaintop}
 
 % 页眉页脚
 \pagenumbering{arabic}
 \pagestyle{fancy}
-\fancyhead[L]{\ds · \hspace{0.1cm} \thepage \hspace{0.1cm} ·}
-\fancyhead[C]{\ds 红~石~数~电~评~论\\\scriptsize{Review of Redstonic Digital Circuit}}
-\fancyhead[R]{\ds 第1期\\\scriptsize{2022年1月}}
-\fancyfoot[L, C, R]{}
+\fancyhead[L]{· \hspace{0.1cm} \thepage \hspace{0.1cm} ·}
+\fancyhead[C]{红 \hspace{0.08cm} 石 \hspace{0.08cm} 数 \hspace{0.08cm} 电 \hspace{0.08cm} 评 \hspace{0.08cm} 论\\\scriptsize{Review of Redstonic Digital Circuit}}
+\fancyhead[R]{第1期\\\scriptsize{2022年2月}}
+\fancyfoot[L,C,R]{}
+
+% 首页页码
+\input{页码.inc}
 
 % 标题
 \title{\vspace{-1.5cm}一种物品缓存器方案\vspace{-0.5cm}}
-\author{\ds @柠喵喵喵\thanks{作者的B站用户名：柠喵喵喵}}
+\author{@柠喵喵喵\thanks{作者的B站用户名：柠喵喵喵}}
 \date{}
 
 % 参考文献标注
@@ -97,14 +55,18 @@
 \setlist{nosep}
 
 \begin{document}
-    \maketitle
-    \thispagestyle{fancy} % 首页页眉页脚
-    \vspace{-0.7cm}
+\pdfbookmark{一种物品缓存器方案}{\thepage}  % 书签
+\hypersetup{bookmarksdepth=-1}  % 禁止后续书签
+\maketitle
+\thispagestyle{fancy}  % 首页页眉页脚
+\vspace{-0.7cm}
 
-    % 节标题格式
-    \titleformat{\section}[hang]{\large\sffamily\bfseries}{\textmd{\ds\thesection}}{0.5cm}{}
-    \titlespacing{\section}{0cm}{0.5ex}{0.2ex}
-    \setcounter{section}{-1}
+% 节标题格式
+\titleformat{\section}[hang]{\large\sffamily\bfseries}{\textmd{\thesection}}{0.5cm}{}
+\titlespacing{\section}{0cm}{0.5ex}{0.2ex}
+\titleformat{\subsection}[hang]{\normalsize\sffamily}{\textmd{\thesubsection}}{0.5cm}{}
+\titlespacing{\subsection}{0cm}{0.5ex}{0.2ex}
+\setcounter{section}{0}
 
 本文展示一种物品缓存器方案，实现了将少量多次输入的物品流缓存后一次性输出。尽管目前还没有明确的应用，但我们认为这一设计是有趣且优雅的。其工作原理如图\ref{fig:1}所示。
 
@@ -113,8 +75,8 @@
 \begin{figure}[h]
     \centering
     \includegraphics[width=.6\textwidth]{图1.png}
-    \label{fig:1}
     \caption{工作原理示意图}
+    \label{fig:1}
 \end{figure}
 
 {\bfseries 电路搭建:}按照图\ref{fig:1}所示工作原理，搭建实际电路如图\ref{fig:2}所示。其中各个组成部分具体说明如下：
@@ -133,8 +95,8 @@
 \begin{figure}[h]
     \centering
     \includegraphics[width=.7\textwidth]{图2.png}
-    \label{fig:2}
     \caption{实际电路图：(a)正面，(b)背面。}
+    \label{fig:2}
 \end{figure}
 
 {\bfseries 运行过程分析:}

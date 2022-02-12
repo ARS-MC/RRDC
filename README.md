@@ -34,6 +34,7 @@
 | 串行二进制转十进制方案 | `@天启c` | 正在编辑 | [预印本](https://github.com/ARS-MC/RRDC/releases/latest) <br /> [原始投稿](https://github.com/ARS-MC/RRDC/tree/main/%E7%AC%AC1%E6%9C%9F/%E5%8E%9F%E5%A7%8B%E6%8A%95%E7%A8%BF/%E4%B8%B2%E8%A1%8C%E4%BA%8C%E8%BF%9B%E5%88%B6%E8%BD%AC%E5%8D%81%E8%BF%9B%E5%88%B6%E6%96%B9%E6%A1%88(%E9%80%9A%E8%AE%AF).pdf) |
 | 潜影盒存储——不可堆叠物品解码方案 | `@辰占鳌头` | 正在编辑 | [预印本](https://github.com/ARS-MC/RRDC/releases/latest) <br /> [原始投稿](https://github.com/ARS-MC/RRDC/tree/main/%E7%AC%AC1%E6%9C%9F/%E5%8E%9F%E5%A7%8B%E6%8A%95%E7%A8%BF/%E6%BD%9C%E5%BD%B1%E7%9B%92%E5%AD%98%E5%82%A8%E2%80%94%E2%80%94%E4%B8%8D%E5%8F%AF%E5%A0%86%E5%8F%A0%E7%89%A9%E5%93%81%E8%A7%A3%E7%A0%81%E6%96%B9%E6%A1%88(%E9%80%9A%E8%AE%AF).pdf) |
 | 潜影盒倒序装填器 | `@redberd` | 正在编辑 | [预印本](https://github.com/ARS-MC/RRDC/releases/latest) <br /> [原始投稿](https://github.com/ARS-MC/RRDC/blob/main/%E7%AC%AC1%E6%9C%9F/%E5%8E%9F%E5%A7%8B%E6%8A%95%E7%A8%BF/%E6%BD%9C%E5%BD%B1%E7%9B%92%E5%80%92%E5%BA%8F%E8%A3%85%E5%A1%AB%E5%99%A8(%E9%80%9A%E8%AE%AF).docx) |
+| 一种物品缓存器方案 | `@柠喵喵喵` | 正在编辑 | [预印本](https://github.com/ARS-MC/RRDC/releases/latest) <br /> [原始投稿](https://github.com/ARS-MC/RRDC/blob/main/%E7%AC%AC1%E6%9C%9F/%E5%8E%9F%E5%A7%8B%E6%8A%95%E7%A8%BF/%E6%BD%9C%E5%BD%B1%E7%9B%92%E5%80%92%E5%BA%8F%E8%A3%85%E5%A1%AB%E5%99%A8(%E9%80%9A%E8%AE%AF).docx) |
 
 ## 第 2 期
 
