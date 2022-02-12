@@ -103,8 +103,8 @@ jobs:
         with:
           extra_fonts: ./fonts/*
           root_file: |
-            ${{ format('./第{0}期/预印本/*/*.tex', env.LATEST) }}
             ${{ format('./第{0}期/杂项/封面.tex', env.LATEST) }}
+            ${{ format('./第{0}期/预印本/*/*.tex', env.LATEST) }}
           glob_root_file: true
           latexmk_use_xelatex: true
           work_in_root_file_dir: true

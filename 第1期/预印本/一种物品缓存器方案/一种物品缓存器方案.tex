@@ -9,11 +9,7 @@
 \usepackage{caption}  % 图表标题
 \usepackage{floatrow}  % 图表排版
 \usepackage{graphicx}  % 图片路径
-\usepackage{url}
-\usepackage{cite}
-\usepackage{bookmark}
-\usepackage{lipsum}
-\usepackage{enumitem}
+\usepackage{enumitem}  % 列表
 
 % 图片路径
 \graphicspath{{figures/}}
@@ -116,7 +112,7 @@
 在本电路的工作环境中，判断“容器容量信号大于等于1”是无意义的，否则任一物品进入待检测容器后都会直接漏出，无法实现缓存功能。
 
 使用1片蛋糕时，信号源提供强度为2的信号。若比较器C处于比较模式，则执行“大于等于2”的逻辑判断；若处于减法模式，则执行“严格大于2”的逻辑判断，等价于“大于等于3”。以此类推调整蛋糕的片数（从1到7）并切换比较器C的模式，即可实现“信号强度大于等于2/15”的判断。
-\newline
+\\
 
 致谢：这种
 物品缓存器的工作方式是由十室\footnote{B站用户名：地球人の实验室}提出的。感谢辰占鳌头\footnote{B站用户名：辰占鳌头}在本文写作过程中提供的大力支持。
