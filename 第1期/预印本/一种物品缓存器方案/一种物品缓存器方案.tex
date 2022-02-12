@@ -10,6 +10,10 @@
 \usepackage{floatrow}  % 图表排版
 \usepackage{graphicx}  % 图片路径
 \usepackage{enumitem}  % 列表
+% 电路图
+\usepackage{tikz}
+\usepackage[european,nooldvoltagedirection]{circuitikz}
+\usepackage{amssymb}  % 数学符号
 
 % 图片路径
 \graphicspath{{figures/}}
@@ -70,7 +74,40 @@
 
 \begin{figure}[h]
     \centering
-    \includegraphics[width=.6\textwidth]{图1.png}
+    \scalebox{0.8}{\begin{circuitikz}[line width=0.8pt]
+        \ctikzset{multipoles/thickness=2}
+        \ctikzset{chips/scale=0.9}
+        \ctikzset{logic ports/scale=1.5}
+        \ctikzset{flipflops/scale=1.2}
+        \ctikzset{logic ports=ieee}
+        \draw
+        (0,0) node[dipchip, num pins=10, hide numbers, no topmark, external pins width=0, rotate=90](cache){\rotatebox{-90}{缓存容器}}
+        (0,-4) node[dipchip, num pins=10, hide numbers, no topmark, external pins width=0, rotate=90](hopper){\rotatebox{-90}{漏斗}}
+        (6,1) node[dipchip, num pins=24, hide numbers, no topmark, external pins width=0, rotate=90](logic1){\rotatebox{-90}{\begin{tabular}{c}
+            逻辑判断： \\
+            容器容量信号$\geqslant$信号源信号？
+        \end{tabular}}}
+        (6,-1) node[dipchip, num pins=12, hide numbers, no topmark, external pins width=0, rotate=90](logic2){\rotatebox{-90}{\begin{tabular}{c}
+            逻辑判断： \\
+            容器为空？
+        \end{tabular}}}
+        (6,-4) node[or port, rotate=180](OR){\rotatebox{180}{或门}}
+        (12,1) node[dipchip, num pins=10, hide numbers, no topmark, external pins width=0, rotate=90](trigger1){\rotatebox{-90}{边沿触发器}}
+        (12,-1) node[dipchip, num pins=10, hide numbers, no topmark, external pins width=0, rotate=90](trigger2){\rotatebox{-90}{边沿触发器}}
+        (16,-2.75) node[flipflop SR, flipflop def={t6={},t4={Q}}, rotate=-90, external pins width=0](SR){\rotatebox{90}{SR锁存器}}
+        (cache.s) ++(0.7,0) node(joint1){}
+        (cache.s) -- ++(0.7,0) -- (joint1 |- logic1) -- (logic1.n) node[inputarrow]{}
+        (cache.s) ++(0.7,0) -- (joint1 |- logic2) -- (logic2.n) node[inputarrow]{}
+        (logic1.s) -- (trigger1.n) node[inputarrow]{}
+        (logic2.s) -- (trigger2.n) node[inputarrow]{}
+        (logic2.s) ++(1.5,0) node(joint2){}
+        (logic2.s) ++(1.5,0) -- (joint2 |- OR.in 2) -- (OR.in 2)
+        (trigger1.s) -- (SR.pin 1 |- trigger1) -- (SR.pin 1) node[inputarrow, rotate=-90]{}
+        (trigger2.s) -- (SR.pin 3 |- trigger2) -- (SR.pin 3) node[inputarrow, rotate=-90]{}
+        (SR.pin 4) -- (SR.pin 4 |- OR.in 1) -- (OR.in 1)
+        (OR.out) -- (hopper.s) node[inputarrow, rotate=180]{}
+        ;
+    \end{circuitikz}}
     \caption{工作原理示意图}
     \label{fig:1}
 \end{figure}
