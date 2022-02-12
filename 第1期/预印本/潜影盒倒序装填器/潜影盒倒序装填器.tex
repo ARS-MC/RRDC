@@ -1,91 +1,46 @@
 % 五号字体，开明式标点处理，不设置默认字体
-\documentclass[UTF8, 12pt, punct=kaiming, fontset=none]{article}
-\usepackage[UTF8]{ctex}
-\usepackage{fontspec}
-\usepackage{float}
-\usepackage{graphicx}
-\usepackage{subcaption}
-\usepackage{pgf-umlsd}
-% 品红色链接和注释
-% \usepackage[colorlinks=true, linkcolor=magenta, citecolor=magenta, urlcolor=magenta]{hyperref}
-% 黑色链接和注释
-\usepackage[colorlinks=true, linkcolor=black, citecolor=black, urlcolor=black]{hyperref}
-\usepackage{geometry}
-\usepackage{fancyhdr}
-\usepackage{caption}
-\usepackage{framed}
-\usepackage{titlesec}
-\usepackage{ragged2e}
-\usepackage{url}
-\usepackage{cite}
-\usepackage{bookmark}
+\documentclass[UTF8,12pt,punct=kaiming,fontset=none]{ctexart}
+\usepackage{fontspec}  % 字体
+\usepackage{subcaption}  % 节标题
+\usepackage[colorlinks=true, linkcolor=magenta, citecolor=magenta, urlcolor=magenta]{hyperref}  % 超链接
+\usepackage{geometry}  % 页面布局
+\usepackage{fancyhdr}  % 页眉页脚
+\usepackage{titlesec}  % 标题
+\usepackage{caption}  % 图表标题
+\usepackage{floatrow}  % 图表排版
+\usepackage{graphicx}  % 图片路径
 
+% 图片路径
 \graphicspath{{figures/}}
 
 % 字体
-\IfFontExistsTF{Source Han Serif SC}
-{
-    \setCJKmainfont{Source Han Serif SC}
-}
-{
-    % GitHub Actions
-    \setCJKmainfont[
-        Path=. ./fonts/ ,    
-        Extension = . otf ,
-        UprightFont = *-Regular ,
-        BoldFont = *-Bold
-    ]{SourceHanSerifSC}
-}
-\IfFontExistsTF{Source Han Sans SC}
-{
-    \setCJKsansfont{Source Han Sans SC}
-}
-{
-    % GitHub Actions
-    \setCJKsansfont[
-        Path=. ./fonts/ ,    
-        Extension = . otf ,
-        UprightFont = *-Regular ,
-        BoldFont = *-Bold
-    ]{SourceHanSerifSC}
-}
-\IfFontExistsTF{DejaVu Sans}
-{
-    \newfontfamily\ds{DejaVu Sans}
-}
-{
-    % GitHub Actions
-    \newfontfamily\ds[
-        Path=. ./fonts/ ,    
-        Extension = . ttf ,
-        BoldFont = *-Bold ,
-        ItalicFont = *-Oblique ,
-        BoldItalicFont = *-BoldOblique
-    ]{DejaVuSans}
-}
-%\newfontfamily\cm{CMU}
-
-% 图表标题字体
-\DeclareCaptionFont{captionfont}{\ds}
-\captionsetup[table]{font=captionfont}
-\captionsetup[figure]{font=captionfont}
-
+\setCJKmainfont{Source Han Serif SC}
+\setCJKsansfont{Source Han Sans SC}
+\setmainfont{CMU Serif}
 
 % 布局
-\geometry{a4paper, left=2cm, right=2cm, top=2.5cm, bottom=2.5cm}
+\geometry{a4paper,left=2cm,right=2cm,top=2.5cm,bottom=2.5cm}
 \setlength{\headheight}{25pt}
+
+% 图表标题
+\DeclareCaptionFont{captionfont}{\small}
+\captionsetup{font=captionfont}
+\floatsetup{style=plaintop}
 
 % 页眉页脚
 \pagenumbering{arabic}
 \pagestyle{fancy}
-\fancyhead[L]{\ds · \hspace{0.1cm} \thepage \hspace{0.1cm} ·}
-\fancyhead[C]{\ds 红~石~数~电~评~论\\\scriptsize{Review of Redstonic Digital Circuit}}
-\fancyhead[R]{\ds 第1期\\\scriptsize{2022年1月}}
-\fancyfoot[L, C, R]{}
+\fancyhead[L]{· \hspace{0.1cm} \thepage \hspace{0.1cm} ·}
+\fancyhead[C]{红 \hspace{0.08cm} 石 \hspace{0.08cm} 数 \hspace{0.08cm} 电 \hspace{0.08cm} 评 \hspace{0.08cm} 论\\\scriptsize{Review of Redstonic Digital Circuit}}
+\fancyhead[R]{第1期\\\scriptsize{2022年2月}}
+\fancyfoot[L,C,R]{}
+
+% 首页页码
+\input{页码.inc}
 
 % 标题
 \title{\vspace{-1.5cm}潜影盒倒序装填器\vspace{-0.5cm}}
-\author{\ds @redberd\thanks{作者联系方式~\url{https://space.bilibili.com/14122148}}~\textsuperscript{,}\thanks{TIS Trinity Union服务器}}
+\author{@redberd\thanks{作者联系方式~\url{https://space.bilibili.com/14122148}}~\textsuperscript{,}\thanks{TIS Trinity Union服务器}}
 \date{}
 
 % 参考文献标注
@@ -94,14 +49,18 @@
 }
 
 \begin{document}
-    \maketitle
-    \thispagestyle{fancy} % 首页页眉页脚
-    \vspace{-0.7cm}
+\pdfbookmark{潜影盒倒序装填器}{\thepage}  % 书签
+\hypersetup{bookmarksdepth=-1}  % 禁止后续书签
+\maketitle
+\thispagestyle{fancy}  % 首页页眉页脚
+\vspace{-0.7cm}
 
-    % 节标题格式
-    \titleformat{\section}[hang]{\large\sffamily\bfseries}{\textmd{\ds\thesection}}{0.5cm}{}
-    \titlespacing{\section}{0cm}{0.5ex}{0.2ex}
-    \setcounter{section}{-1}
+% 节标题格式
+\titleformat{\section}[hang]{\large\sffamily\bfseries}{\textmd{\thesection}}{0.5cm}{}
+\titlespacing{\section}{0cm}{0.5ex}{0.2ex}
+\titleformat{\subsection}[hang]{\normalsize\sffamily}{\textmd{\thesubsection}}{0.5cm}{}
+\titlespacing{\subsection}{0cm}{0.5ex}{0.2ex}
+\setcounter{section}{0}
 
 潜影盒倒序装填器，是一种将物品流自动装进潜影盒，同时保存物品的顺序信息的装置。利用该装置，可以做出可重复读取、大容量、高密度的潜影盒ROM\upcite{ref1}，有良好的发展前景。目前，倒序装填技术在编码红石音乐领域有重要的应用\upcite{ref2}。
 
@@ -112,8 +71,8 @@
 \begin{figure}[h]
     \centering
     \includegraphics[width=.9\textwidth]{图片1.png}
-    \label{fig:1}
     \caption{倒序装填流程图\upcite{ref1}.}
+    \label{fig:1}
 \end{figure}
 
 根据倒序装填的原理，本文提出了一种可行的方案\upcite{ref1}，流程如图\ref{fig:1}所示。预先准备一个潜影盒，每一格都填充一个玻璃板，玻璃板的命名依次为1,2,3,…,27。装填第一个物品之前，先用分类漏斗吸走27号玻璃板，再将第一个物品装入潜影盒。于是，第一个物品装进了潜影盒的第27格。装填第二个物品之前，先用分类漏斗吸走26号玻璃板，再将第二个物品装入潜影盒。由于物品优先进入靠前的格子，而潜影盒的第26格为空，那么第二个物品必定进入第26格。依次类推，每装填一个物品之前，先抽走一个玻璃板，让物品倒序地装填进潜影盒。这样，在倒序装填的过程中，虽然有相同的物品，但总有一个空的格子处在最靠前的位置，于是物品优先进入了空的格子，而不是与其他格子的物品堆叠在一起。
