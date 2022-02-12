@@ -94,7 +94,7 @@
         (6,-4) node[or port, rotate=180](OR){\rotatebox{180}{或门}}
         (12,1) node[dipchip, num pins=10, hide numbers, no topmark, external pins width=0, rotate=90](trigger1){\rotatebox{-90}{边沿触发器}}
         (12,-1) node[dipchip, num pins=10, hide numbers, no topmark, external pins width=0, rotate=90](trigger2){\rotatebox{-90}{边沿触发器}}
-        (16,-2.75) node[flipflop SR, flipflop def={t6={},t4={Q}}, rotate=-90, external pins width=0](SR){\rotatebox{90}{SR锁存器}}
+        (16,-2.75) node[flipflop SR, flipflop def={t1={R},t3={S},t6={},t4={Q}}, rotate=-90, external pins width=0](SR){\rotatebox{90}{SR锁存器}}
         (cache.s) ++(0.7,0) node(joint1){}
         (cache.s) -- ++(0.7,0) -- (joint1 |- logic1) -- (logic1.n) node[inputarrow]{}
         (cache.s) ++(0.7,0) -- (joint1 |- logic2) -- (logic2.n) node[inputarrow]{}
