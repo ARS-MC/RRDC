@@ -17,6 +17,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - uses: actions/checkout@v2
+      - name: 安装依赖
+        run: sudo apt install -y pdftk
       - name: 获取最后一期的编号
         shell: python
         run: |
