@@ -9,6 +9,13 @@ jobs:
     runs-on: ubuntu-latest
     needs: build-and-prerelease
     steps:
+      - uses: dev-drprasad/delete-older-releases@v0.2.0
+        with:
+          keep_latest: 0
+          delete_tags: true
+          delete_tag_pattern: ${{ format('build-{0}', github.run_number) }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - uses: actions/checkout@v2
       - name: 获取最后一期的编号
         shell: python
