@@ -80,5 +80,5 @@ jobs:
         with:
           tag_name: ${{ format('release-{0}', env.LATEST) }}
           name: ${{ format('红石数电评论 第 {0} 期 🎉', env.LATEST) }}
-          body_path: ${{ github.workspace }}/pdfs/release_body
+          body_path: ${{ github.workspace }}/release_body
           files: ./pdfs/*.pdf
