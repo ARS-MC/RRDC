@@ -69,7 +69,10 @@ jobs:
                   # 重命名 pdf 文件并生成 release 信息
                   for name, author, page in articles:
                       rename(pdfs_root / f'{name}.pdf', pdfs_root / f'{index}-release-{latest}.pdf')
-                      print(f'    - [{name}.pdf](https://github.com/ARS-MC/RRDC/releases/download/release-{latest}/{index}-release-{latest}.pdf) `{author}` (pp. {current_page}-{current_page + page - 1})', file=f)
+                      if page > 1:
+                          print(f'    - [{name}.pdf](https://github.com/ARS-MC/RRDC/releases/download/release-{latest}/{index}-release-{latest}.pdf) `{author}` (pp. {current_page}-{current_page + page - 1})', file=f)
+                      else:
+                          print(f'    - [{name}.pdf](https://github.com/ARS-MC/RRDC/releases/download/release-{latest}/{index}-release-{latest}.pdf) `{author}` (p. {current_page})', file=f)
                       index += 1
                       current_page += page
       - uses: anothrNick/github-tag-action@1.36.0
