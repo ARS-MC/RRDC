@@ -1,18 +1,14 @@
 name: 构建预印本
 
-on: [push, pull_request, workflow_dispatch]
+on: [push, pull_request, workflow_dispatch, workflow_call]
 
 jobs:
-  build-and-release:
+  build-and-prerelease:
     runs-on: ubuntu-latest
     steps:
-      - name: 获取时间戳
-        run: |
-          echo "DATE=$(date -u +'%Y-%m-%dT%H:%M:%SZ')" >> $GITHUB_ENV
-          echo "DATE_FILE_NAME=$(date -u +'%Y-%m-%dT%H%M%SZ')" >> $GITHUB_ENV
+      - uses: actions/checkout@v2
       - name: 安装依赖
         run: sudo apt install -y pdftk
-      - uses: actions/checkout@v2
       - name: 下载字体
         run: |
           # Source Han Serif
@@ -125,13 +121,17 @@ jobs:
           articles = map(str, sum(([pdfs_root / f'{name}.pdf' for name, author in contents[type_]] for type_ in ('论文', '通讯')), start=[]))
           cover = pdfs_root / '封面.pdf'
           system(f'pdftk {cover} {" ".join(articles)} cat output ./pdfs/第{latest}期.pdf')
-      - name: 重命名 pdf 文件
+      - uses: actions/upload-artifact@v2.3.1
+        with:
+          name: pdfs
+          path: ./pdfs/*.pdf
+      - name: 重命名 pdf 文件并生成 release 信息
         run: |
           cd pdfs
           readarray -t pdf_files < <(ls -1)
           cat << EOF > release_body
           ## 非最终版本，仅用于预览。
-          由于 GitHub Actions 上传 release 资源时不支持包含特殊字符和 Unicode 的文件名，文件已被重命名。单击文件名将自动跳转到对应的文件：
+          由于 GitHub 上传 release 资源时不支持包含特殊字符和 Unicode 的文件名，文件已被重命名。单击文件名将自动跳转到对应的文件：
           EOF
           for (( i=0; i<${#pdf_files[*]}; ++i )); do
             mv "${pdf_files[$i]}" "${i}-build-${RUN_NUMBER}.pdf"
@@ -159,4 +159,3 @@ jobs:
           delete_tag_pattern: build
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-

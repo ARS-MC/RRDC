@@ -1,0 +1,75 @@
+name: 发布
+
+on: [workflow_dispatch]
+
+jobs:
+  build-and-prerelease:
+    uses: ARS-MC/RRDC/.github/workflows/build.yml@main
+  release:
+    runs-on: ubuntu-latest
+    needs: build-and-prerelease
+    steps:
+      - uses: actions/checkout@v2
+      - name: 获取最后一期的编号
+        shell: python
+        run: |
+          from os import walk, environ
+          from re import match as re_match
+          latest = 0
+          for dir in next(walk('.'))[1]:
+              m = re_match('第(\d+)期', dir)
+              if m is not None:
+                  number = int(m.group(1))
+                  if number > latest:
+                      latest = number
+          with open(environ['GITHUB_ENV'], 'w', encoding='utf8') as f:
+              print(f'LATEST={latest}', file=f)
+      - uses: actions/download-artifact@v2.1.0
+        with:
+          name: pdfs
+          path: ./pdfs/
+      - name: 重命名 pdf 文件并生成 release 信息
+        shell: python
+        run: |
+          from os import environ, popen, rename
+          from json import load
+          from pathlib import Path
+          latest = environ['LATEST']
+          root = Path(f'./第{latest}期/杂项/')
+          pdfs_root = Path('./pdfs/')
+          with open(root / '目录.json', 'r', encoding='utf8') as f:
+              contents = load(f)
+          rename(pdfs_root / f'第{latest}期.pdf', pdfs_root / 'f'0-release-{latest}.pdf')
+          rename(pdfs_root / '封面.pdf', pdfs_root / 'f'1-release-{latest}.pdf')
+          with open('release_body', 'w', encoding='utf8') as f:
+              print('由于 GitHub 上传 release 资源时不支持包含特殊字符和 Unicode 的文件名，文件已被重命名。单击文件名将自动跳转到对应的文件：', file=f)
+              print(f'- ### **[红石数电评论 第{latest}期.pdf](https://github.com/ARS-MC/RRDC/releases/download/release-{latest}/0-release-{latest}.pdf)**', file=f)
+              print(f'- [封面.pdf](https://github.com/ARS-MC/RRDC/releases/download/release-{latest}/1-release-{latest}.pdf) (pp. 1-2)', file=f)
+              index = 2
+              current_page = 3
+              for type_ in ('论文', '通讯'):
+                  print(f'- {type_}', file=f)
+                  # 获取页码
+                  articles = [(
+                      name, author,
+                      int(next(filter(
+                          lambda s: s.startswith('NumberOfPages:'),
+                          popen(f'pdftk {pdfs_root / (name + ".pdf")} dump_data_utf8').read().splitlines(keepends=False)
+                      )).split(' ')[1])
+                  ) for name, author in contents[type_]]
+                  # 重命名 pdf 文件并生成 release 信息
+                  for name, author, page in articles:
+                      rename(pdfs_root / f'{name}.pdf', pdfs_root / f'{index}-release-{latest}.pdf')
+                      print(f'    - [{name}.pdf](https://github.com/ARS-MC/RRDC/releases/download/release-{latest}/{index}-release-{latest}.pdf) `{author}` (pp. {current_page}-{current_page + page - 1})', file=f)
+                      index += 1
+                      current_page += page
+      - uses: anothrNick/github-tag-action@1.36.0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          CUSTOM_TAG: ${{ format('release-{0}', env.LATEST) }}
+      - uses: softprops/action-gh-release@v0.1.14
+        with:
+          tag_name: ${{ format('release-{0}', env.LATEST) }}
+          name: ${{ format('红石数电评论 第 {0} 期 🎉', env.LATEST) }}
+          body_path: ${{ github.workspace }}/pdfs/release_body
+          files: ./pdfs/*.pdf
