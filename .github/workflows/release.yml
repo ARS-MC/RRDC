@@ -52,8 +52,8 @@ jobs:
           rename(pdfs_root / '封面.pdf', pdfs_root / f'1-release-{latest}.pdf')
           with open('release_body', 'w', encoding='utf8') as f:
               print('由于 GitHub 上传 release 资源时不支持包含特殊字符和 Unicode 的文件名，文件已被重命名。单击文件名将自动跳转到对应的文件：', file=f)
-              print(f'- ### **[红石数电评论 第{latest}期.pdf](https://github.com/ARS-MC/RRDC/releases/download/release-{latest}/0-release-{latest}.pdf)**', file=f)
-              print(f'- [封面.pdf](https://github.com/ARS-MC/RRDC/releases/download/release-{latest}/1-release-{latest}.pdf) (pp. 1-2)', file=f)
+              print(f'- ### **[红石数电评论 第{latest}期](https://github.com/ARS-MC/RRDC/releases/download/release-{latest}/0-release-{latest}.pdf)**', file=f)
+              print(f'- [封面](https://github.com/ARS-MC/RRDC/releases/download/release-{latest}/1-release-{latest}.pdf) (pp. 1-2)', file=f)
               index = 2
               current_page = 3
               for type_ in ('论文', '通讯'):
@@ -70,9 +70,9 @@ jobs:
                   for name, author, page in articles:
                       rename(pdfs_root / f'{name}.pdf', pdfs_root / f'{index}-release-{latest}.pdf')
                       if page > 1:
-                          print(f'    - [{name}.pdf](https://github.com/ARS-MC/RRDC/releases/download/release-{latest}/{index}-release-{latest}.pdf) `{author}` (pp. {current_page}-{current_page + page - 1})', file=f)
+                          print(f'    - [{name}](https://github.com/ARS-MC/RRDC/releases/download/release-{latest}/{index}-release-{latest}.pdf) `{author}` (pp. {current_page}-{current_page + page - 1})', file=f)
                       else:
-                          print(f'    - [{name}.pdf](https://github.com/ARS-MC/RRDC/releases/download/release-{latest}/{index}-release-{latest}.pdf) `{author}` (p. {current_page})', file=f)
+                          print(f'    - [{name}](https://github.com/ARS-MC/RRDC/releases/download/release-{latest}/{index}-release-{latest}.pdf) `{author}` (p. {current_page})', file=f)
                       index += 1
                       current_page += page
       - uses: anothrNick/github-tag-action@1.36.0
