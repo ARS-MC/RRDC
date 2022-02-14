@@ -51,7 +51,7 @@ jobs:
           rename(pdfs_root / f'第{latest}期.pdf', pdfs_root / f'0-release-{latest}.pdf')
           rename(pdfs_root / '封面.pdf', pdfs_root / f'1-release-{latest}.pdf')
           with open('release_body', 'w', encoding='utf8') as f:
-              print('由于 GitHub 上传 release 资源时不支持包含特殊字符和 Unicode 的文件名，文件已被重命名。单击文件名将自动跳转到对应的文件：', file=f)
+              print('由于 GitHub 上传 release 资源时不支持包含特殊字符和 Unicode 的文件名，文件已被重命名。单击标题将自动跳转到对应的文件：', file=f)
               print(f'- ### **[红石数电评论 第{latest}期](https://github.com/ARS-MC/RRDC/releases/download/release-{latest}/0-release-{latest}.pdf)**', file=f)
               print(f'- [封面](https://github.com/ARS-MC/RRDC/releases/download/release-{latest}/1-release-{latest}.pdf) (pp. 1-2)', file=f)
               index = 2
