@@ -1,0 +1,168 @@
+% 五号字体，开明式标点处理，不设置默认字体
+\documentclass[UTF8,12pt,punct=kaiming,fontset=none]{ctexart}
+\usepackage{fontspec}  % 字体
+\usepackage{subcaption}  % 节标题
+\usepackage[colorlinks=true, linkcolor=magenta, citecolor=magenta, urlcolor=magenta]{hyperref}  % 超链接
+\usepackage{geometry}  % 页面布局
+\usepackage{fancyhdr}  % 页眉页脚
+\usepackage{titlesec}  % 标题
+\usepackage{caption}  % 图表标题
+\usepackage{floatrow}  % 图表排版
+\usepackage{graphicx}  % 图片路径
+
+% 表格(可选)
+\usepackage{multirow}
+\usepackage{boldline}
+% 电路图(可选)
+\usepackage{tikz}
+\usepackage[european,nooldvoltagedirection]{circuitikz}
+
+% 图片路径
+\graphicspath{{figures/}}
+
+% 字体
+\setCJKmainfont{Source Han Serif SC}
+\setCJKsansfont{Source Han Sans SC}
+\setmainfont{CMU Serif}
+
+% 布局
+\geometry{a4paper,left=2cm,right=2cm,top=2.5cm,bottom=2.5cm}
+\setlength{\headheight}{25pt}
+
+% 图表标题
+\DeclareCaptionFont{captionfont}{\small}
+\captionsetup{font=captionfont}
+\floatsetup{style=plaintop}
+
+% 页眉页脚
+\pagenumbering{arabic}
+\pagestyle{fancy}
+\fancyhead[L]{· \hspace{0.1cm} \thepage \hspace{0.1cm} ·}
+\fancyhead[C]{红 \hspace{0.1cm} 石 \hspace{0.1cm} 数 \hspace{0.1cm} 电 \hspace{0.1cm} 评 \hspace{0.1cm} 论\\\scriptsize{Review of Redstonic Digital Circuit}}
+\fancyhead[R]{第2期\\\scriptsize{2023年x月}}
+\fancyfoot[L,C,R]{}
+
+% 首页页码
+\input{页码.inc}
+
+% 标题
+\title{\vspace{-1.5cm}标题\vspace{-0.5cm}}
+\author{作者\footnote{作者联系方式或背景等}}
+\date{}
+
+% 参考文献标注
+\newcommand*{\upcite}[1]{
+    \textsuperscript{\cite{#1}}
+}
+
+\begin{document}
+\pdfbookmark{标题}{\thepage}  % 书签
+\hypersetup{bookmarksdepth=-1}  % 禁止后续书签
+\maketitle
+\thispagestyle{fancy}  % 首页页眉页脚
+\vspace{-0.7cm}
+
+% 摘要及关键词
+\begin{flushright}
+    \begin{minipage}[c]{0.91\linewidth}
+        \titleformat{\section}[leftmargin]{\sffamily\small\bfseries}{}{0cm}{}
+        \titlespacing{\section}{1.5cm}{1ex}{0cm}
+
+        \section{摘 \hspace{0.105cm} 要}
+        \small 摘要.
+
+        \section{关键词}
+        \small 关键词 \hspace{0.5cm} 关键词
+    \end{minipage}
+\end{flushright}
+\vspace{0.2cm}
+
+% 节标题格式
+\titleformat{\section}[hang]{\large\sffamily\bfseries}{\textmd{\thesection}}{0.5cm}{}
+\titlespacing{\section}{0cm}{0.5ex}{0.2ex}
+\titleformat{\subsection}[hang]{\normalsize\sffamily}{\textmd{\thesubsection}}{0.5cm}{}
+\titlespacing{\subsection}{0cm}{0.5ex}{0.2ex}
+\setcounter{section}{0}
+
+\section{引言}
+当整数$n > 2$时,关于$x, y, z$的不定方程
+$$x^n + y^n = z^n$$
+无\textbf{正整数(粗体)}解.
+
+\section{节}
+\subsection{节}
+正文.图表并排如表 \ref{tab:1} 和图 \ref{fig:1} 所示.\upcite{bib:art1}单张图片如图 \ref{fig:a-figure} 所示.
+
+\begin{figure}[H]
+    \begin{floatrow}
+        \ttabbox
+        {
+            \caption{表标题}
+            \label{tab:1}
+        }
+        {
+            \scalebox{0.8}{\begin{tabular}{c c c}
+            \hlineB{3}
+            表头 & 表头 & 表头 \\
+            \hlineB{3}
+            \multirow{2}{*}{\centering 多行单元格} & 单元格 & \multirow{2}{*}{\centering 多行单元格} \\
+            \cline{2-2}
+            & 单元格 & \\
+            \hline
+            单元格 & \multicolumn{2}{c}{多列单元格} \\
+            \hlineB{3}
+            \end{tabular}}
+        }
+        \ffigbox
+        {
+            \caption{图标题}
+            \label{fig:1}
+        }
+        {
+            \scalebox{0.8}{\begin{circuitikz}[line width=0.8pt]
+            \ctikzset{multipoles/thickness=2}
+            \ctikzset{chips/scale=1.2}
+            \draw (0,0) node[qfpchip, num pins=12, hide numbers, no topmark, external pins width=0](C1){标注};
+            \draw (7,0) node[qfpchip, num pins=12, hide numbers, no topmark, external pins width=0](C2){标注};
+            \draw (0,-4) node[qfpchip, num pins=12, hide numbers, no topmark, external pins width=0](C3){标注};
+            \draw (C1.bpin 4) to[short, -, l=标注] (C3.bpin 12);
+            \draw (C1.bpin 6) to[short, -, l=标注] (C3.bpin 10);
+            \draw (C1.bpin 8) to[short, -, l=标注] (C2.bpin 2);
+            \draw (C3.bpin 8) to[short, -, l=标注] (7,-4) -- (C2.bpin 5);
+            \end{circuitikz}}
+        }
+    \end{floatrow}
+\end{figure}
+
+\begin{figure}[H]
+    \includegraphics[width=0.3\linewidth]{figure.png}
+    \caption{单张图片}
+    \label{fig:a-figure}
+\end{figure}
+
+多张子图片如图 \ref{fig:a-random-figure} 和图 \ref{fig:another-random-figure} 所示或如图 \ref{fig:some-random-figure} 所示.
+
+\begin{figure}[H]
+    \begin{subfigure}{0.3\linewidth}
+        \centering
+        \includegraphics[width=\linewidth]{figure.png}
+        \caption{图片1}
+        \label{fig:a-random-figure}
+    \end{subfigure}
+    \hspace{1cm}
+    \begin{subfigure}{0.3\linewidth}
+        \centering
+        \includegraphics[width=\linewidth]{figure.png}
+        \caption{图片2}
+        \label{fig:another-random-figure}
+    \end{subfigure}
+    \caption{两张图片}
+    \label{fig:some-random-figure}
+\end{figure}
+
+\section{结语}
+结语.\upcite{bib:art1}\upcite{bib:misc1}
+
+\bibliographystyle{unsrt}
+\bibliography{reference.bib}
+\end{document}
